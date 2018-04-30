@@ -1,6 +1,7 @@
 package com.example.demo.procurement.rest.controller;
 
 import com.example.demo.rental.integration.gateways.RentalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @CrossOrigin
 public class PlantsRestController {
 
+    @Autowired
     RentalService rentalService;
 
     @GetMapping()

@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class PurchaseOrderDTO extends ResourceSupport {
     Long _id;
 
-//    Resource<PlantInventoryEntryDTO> plant;
+//    Resource<Plant> plant;
 //    BusinessPeriodDTO rentalPeriod;
 //
 //    @Column(precision = 8, scale = 2)

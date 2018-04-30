@@ -1,6 +1,6 @@
 package com.example.demo.rental.integration.transformers;
 
-import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
+import com.example.demo.procurement.application.dto.Plant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,18 @@ public class CustomTransformer {
     @Autowired
     ObjectMapper mapper;
 
-    public Resources<Resource<PlantInventoryEntryDTO>> fromJson(String json) {
+    public Resources<Resource<Plant>> fromJson(String json) {
         try {
-            List<PlantInventoryEntryDTO> plants = mapper.readValue(json, new TypeReference<List<PlantInventoryEntryDTO>>() {});
+            List<Plant> plants = mapper.readValue(json, new TypeReference<List<Plant>>() {});
             return new Resources<>(plants.stream().map(p -> new Resource<>(p, new Link("http://localhost:8088/api/v1/plant/" + p.get_id()))).collect(Collectors.toList()));
         } catch (IOException e) {
             return null;
         }
     }
 
-    public Resources<Resource<PlantInventoryEntryDTO>> fromHALForms(String json) {
+    public Resources<Resource<Plant>> fromHALForms(String json) {
         try {
-            return mapper.readValue(json, new TypeReference<Resources<Resource<PlantInventoryEntryDTO>>>() {});
+            return mapper.readValue(json, new TypeReference<Resources<Resource<Plant>>>() {});
         } catch (IOException e) {
             return null;
         }

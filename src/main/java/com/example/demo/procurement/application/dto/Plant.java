@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
-public class PlantInventoryEntryDTO extends ResourceSupport {
+public class Plant extends ResourceSupport {
     String _id;
     String name;
     String description;
