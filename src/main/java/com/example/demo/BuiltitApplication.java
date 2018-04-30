@@ -34,11 +34,11 @@ public class BuiltitApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(BuiltitApplication.class, args);
-		RentalService service = ctx.getBean(RentalService.class);
-
-		System.out.println(
-				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
-		);
+//		RentalService service = ctx.getBean(RentalService.class);
+//
+//		System.out.println(
+//				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
+//		);
 
 	}
 }
