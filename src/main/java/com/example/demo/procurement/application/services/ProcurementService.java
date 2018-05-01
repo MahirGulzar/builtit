@@ -40,7 +40,7 @@ public class ProcurementService {
 
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
-        Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().get_id());
+        Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
         if(worksEngineer==null)
         {
             //TODO throw exception or something here...
@@ -58,7 +58,7 @@ public class ProcurementService {
 
     public Resource<PlantHireRequestDTO> rejectPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
-        Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().get_id());
+        Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
         if(worksEngineer==null)
         {
             //TODO throw exception or something here...
@@ -87,11 +87,11 @@ public class ProcurementService {
 
     public Resource<PlantHireRequestDTO> createPlantHireRequest(PlantHireRequestDTO phrDTO) {
 
-        Employee siteEngineer = employeeRepository.getOne(phrDTO.getSiteEngineer().get_id());
+        Employee siteEngineer = employeeRepository.getOne(phrDTO.getSiteEngineer().getContent().get_id());
         Employee worksEngineer = null;
 
         System.out.println(siteEngineer);
-        ConstructionSite constructionSite = constructionSiteRepository.getOne(phrDTO.getConstructionSite().get_id());
+        ConstructionSite constructionSite = constructionSiteRepository.getOne(phrDTO.getConstructionSite().getContent().get_id());
 
         PlantInventoryEntry plant = null;
         System.out.println(phrDTO.getPlantInventoryEntry());

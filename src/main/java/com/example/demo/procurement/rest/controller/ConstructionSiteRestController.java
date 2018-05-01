@@ -5,16 +5,15 @@ import com.example.demo.procurement.application.dto.ConstructionSiteDTO;
 import com.example.demo.procurement.application.services.ConstructionSiteService;
 import com.example.demo.procurement.domain.model.ConstructionSite;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/sites/constructionsites")
+@RequestMapping("/api/procurements/constructionsites")
 @CrossOrigin
 public class ConstructionSiteRestController {
 
@@ -22,7 +21,11 @@ public class ConstructionSiteRestController {
     ConstructionSiteService constructionSiteService;
 
     @GetMapping()
-    public List<ConstructionSiteDTO> findAllProductionSites() {
+    public Resources<?> findAllConstructionSites() {
         return constructionSiteService.findAllProductionSites();
+    }
+    @GetMapping("/{id}")
+    public Resource<ConstructionSiteDTO> findConstructionSite(@PathVariable("id") Long id) {
+        return constructionSiteService.findConstructionSite(id);
     }
 }

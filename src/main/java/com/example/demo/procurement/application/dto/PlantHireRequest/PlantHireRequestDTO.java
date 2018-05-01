@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import java.math.BigDecimal;
 
@@ -23,11 +24,11 @@ import java.math.BigDecimal;
 public class PlantHireRequestDTO extends ResourceSupport {
     Long _id;
 
-    EmployeeDTO siteEngineer;
+    Resource<EmployeeDTO> siteEngineer;
 
-    EmployeeDTO worksEngineer;
+    Resource<EmployeeDTO> worksEngineer;
 
-    ConstructionSiteDTO constructionSite;
+    Resource<ConstructionSiteDTO> constructionSite;
 
     PlantInventoryEntryDTO plantInventoryEntry;
 
