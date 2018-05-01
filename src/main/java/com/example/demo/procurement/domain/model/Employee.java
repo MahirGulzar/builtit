@@ -14,5 +14,5 @@ public class Employee {
 
     String name;
     @Enumerated(EnumType.STRING)
-    EmployeeType employeeType;
+    EmployeeType type;
 }

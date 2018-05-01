@@ -1,5 +1,7 @@
 package com.example.demo.rental.integration.gateways;
 
+import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.messaging.handler.annotation.Header;

@@ -8,7 +8,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+
 
 
 @Data
@@ -16,17 +16,17 @@ import java.util.ArrayList;
 public class PlantHireRequest {
     @Id
     @GeneratedValue
-    long id;
+    Long id;
 
 
-    public static PlantHireRequest of(PlantInventoryEntry plant, BusinessPeriod rentalPeriod, Employee siteEngineer) {
+    public static PlantHireRequest of(PlantInventoryEntry plant, BusinessPeriod rentalPeriod, Employee siteEngineer, ConstructionSite constructionSite) {
         PlantHireRequest plantHireRequest = new PlantHireRequest();
         plantHireRequest.plantInventoryEntry = plant;
         plantHireRequest.rentalPeriod = rentalPeriod;
         plantHireRequest.siteEngineer=siteEngineer;
+        plantHireRequest.constructionSite=constructionSite;
         plantHireRequest.status = PHRStatus.PENDING_APPROVAL;
-
-//        plantHireRequest.totalPrice = BigDecimal.valueOf(ChronoUnit.DAYS.between(rentalPeriod.getStartDate(), rentalPeriod.getEndDate()) + 1).multiply(plant.getPrice());
+        plantHireRequest.totalPrice = BigDecimal.valueOf(ChronoUnit.DAYS.between(rentalPeriod.getStartDate(), rentalPeriod.getEndDate()) + 1).multiply(plant.getPrice());
         return plantHireRequest;
     }
 

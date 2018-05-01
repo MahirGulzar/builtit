@@ -10,6 +10,5 @@ public class ConstructionSite {
     @Id
     @GeneratedValue
     long id;
-
     String name;
 }

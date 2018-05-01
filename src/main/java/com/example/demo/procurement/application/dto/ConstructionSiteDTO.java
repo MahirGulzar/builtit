@@ -1,24 +1,15 @@
-package com.example.demo.procurement.domain.model;
+package com.example.demo.procurement.application.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.ResourceSupport;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
-
-@Entity
 @Data
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
-public class PlantInventoryEntry {
-    @Id
+public class ConstructionSiteDTO extends ResourceSupport {
     Long _id;
     String name;
-    String description;
-    BigDecimal price;
-    String _link;
-    String supplier;
-
 }
