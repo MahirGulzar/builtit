@@ -24,6 +24,7 @@ public class ProcurementRestController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public Resource<PlantHireRequestDTO> createPlantHireRequest(@RequestBody PlantHireRequestDTO phrDTO) {
+        System.out.println(phrDTO);
             return procurementService.createPlantHireRequest(phrDTO);
 
     }
