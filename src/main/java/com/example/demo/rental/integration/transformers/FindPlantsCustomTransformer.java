@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomTransformer {
+public class FindPlantsCustomTransformer {
     @Autowired
     ObjectMapper mapper;
 

@@ -15,4 +15,7 @@ import java.time.LocalDate;
 public interface RentalService {
     @Gateway(requestChannel = "req-channel", replyChannel = "rep-channel")
     Object findPlants(@Payload String name, @Header("startDate") LocalDate startDate, @Header("endDate") LocalDate endDate);
+
+    @Gateway(requestChannel = "req-po-channel", replyChannel = "rep-po-channel")
+    Object createPurchaseOrder(@Payload String name);
 }

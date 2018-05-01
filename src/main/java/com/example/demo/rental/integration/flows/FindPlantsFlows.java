@@ -12,7 +12,7 @@ import org.springframework.integration.scripting.dsl.Scripts;
 import java.util.stream.Collectors;
 
 @Configuration
-class Flows {
+class FindPlantsFlows {
 
     @Bean
     IntegrationFlow scatterComponent() {
@@ -51,7 +51,7 @@ class Flows {
                 )
                 .transform(Scripts.processor("classpath:/JsonApi2HAL.js")
                         .lang("javascript"))
-                .handle("customTransformer", "fromJson")
+                .handle("findPlantsCustomTransformer", "fromJson")
                 .channel("gather-channel")
                 .get();
     }
@@ -66,7 +66,7 @@ class Flows {
                         .httpMethod(HttpMethod.GET)
                         .expectedResponseType(String.class)
                 )
-                .handle("customTransformer", "fromHALForms")
+                .handle("findPlantsCustomTransformer", "fromHALForms")
                 .channel("gather-channel")
                 .get();
     }
