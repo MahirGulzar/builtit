@@ -44,7 +44,14 @@ public class ProcurementRestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{id}/accept")
+    @PutMapping("/{id}")
+    public Resource<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable("id") Long id,
+                                                                 @RequestBody PlantHireRequestDTO phrDTO) {
+        return procurementService.updatePlantHireRequest(phrDTO);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/{id}/accept")
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(@PathVariable("id") Long id,
                                                                  @RequestBody PlantHireRequestDTO phrDTO) {
         return procurementService.approvePlantHireRequest(phrDTO);
