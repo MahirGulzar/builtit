@@ -3,6 +3,7 @@ package com.example.demo.procurement.rest.controller;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
+import com.example.demo.rental.integration.gateways.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -21,6 +22,8 @@ public class ProcurementRestController {
 
     @Autowired
     ProcurementService procurementService;
+
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()

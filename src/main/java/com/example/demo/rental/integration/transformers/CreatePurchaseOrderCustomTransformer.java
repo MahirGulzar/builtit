@@ -14,18 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CustomTransformer {
+public class CreatePurchaseOrderCustomTransformer {
     @Autowired
     ObjectMapper mapper;
-
-    public Resources<Resource<Plant>> fromJson(String json) {
-        try {
-            List<Plant> plants = mapper.readValue(json, new TypeReference<List<Plant>>() {});
-            return new Resources<>(plants.stream().map(p -> new Resource<>(p, new Link("http://localhost:8088/api/v1/plant/" + p.get_id()))).collect(Collectors.toList()));
-        } catch (IOException e) {
-            return null;
-        }
-    }
 
     public Resources<Resource<Plant>> fromHALForms(String json) {
         try {

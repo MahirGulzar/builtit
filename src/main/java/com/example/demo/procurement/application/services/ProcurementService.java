@@ -8,6 +8,7 @@ import com.example.demo.procurement.domain.model.Employee;
 import com.example.demo.procurement.domain.model.PlantHireRequest;
 import com.example.demo.procurement.domain.model.PlantInventoryEntry;
 import com.example.demo.procurement.domain.repository.*;
+import com.example.demo.rental.integration.gateways.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -37,6 +38,9 @@ public class ProcurementService {
     @Autowired
     ConstructionSiteRepository constructionSiteRepository;
 
+    @Autowired
+    RentalService rentalService;
+
 
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
@@ -48,7 +52,7 @@ public class ProcurementService {
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
-        // TODO create PurchaseOrder here....
+        rentalService.createPurchaseOrder("");
 
         plantHireRequest.approvePHR(worksEngineer,null);
 //        plantHireRequest.addComments(plantHireRequestDTO.getComments().getComment());
