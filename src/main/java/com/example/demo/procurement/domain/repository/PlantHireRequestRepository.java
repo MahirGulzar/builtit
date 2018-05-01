@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlantHireRequestRepository extends JpaRepository<PlantHireRequest, Long> {
+    PlantHireRequest findById(long id);
 }

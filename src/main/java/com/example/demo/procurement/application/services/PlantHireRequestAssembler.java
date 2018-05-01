@@ -8,12 +8,15 @@ import com.example.demo.procurement.domain.model.PlantHireRequest;
 import com.example.demo.procurement.rest.controller.ProcurementRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +35,9 @@ public class PlantHireRequestAssembler {
 
 
     public Resources<Resource<PlantHireRequestDTO>> toResources(List<PlantHireRequest> orders){
-        return new Resources<>(orders.stream().map(o -> toResource(o)).collect(Collectors.toList())
-//                linkTo(methodOn(ProcurementRestController.class).findPurchaseOrders()).withSelfRel()
-//                        .andAffordance(afford(methodOn(SalesRestController.class).createPurchaseOrder(null)))
+        return new Resources<>(orders.stream().map(o -> toResource(o)).collect(Collectors.toList()),
+                linkTo(methodOn(ProcurementRestController.class).getPlantHireRequests()).withSelfRel()
+                        .andAffordance(afford(methodOn(ProcurementRestController.class).createPlantHireRequest(null)))
 
         );
     }
@@ -118,10 +121,37 @@ public class PlantHireRequestAssembler {
         }
 */
         return new Resource<>(
-                dto
-                //linkFor(po)
+                dto,
+                linkFor(plantHireRequest)
 
         );
 
     }
+
+
+
+    private List<Link> linkFor(PlantHireRequest plantHireRequest) {
+
+        switch (plantHireRequest.getStatus()) {
+            case PENDING_APPROVAL:
+                return Arrays.asList(
+                        linkTo(methodOn(ProcurementRestController.class).getPlantHireRequestsById(plantHireRequest.getId())).withSelfRel(),
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).approvePlantHireRequest(plantHireRequest.getId(),null)).toString(), "accept", HttpMethod.PUT),
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).rejectPlantHireRequest(plantHireRequest.getId(),null)).toString(), "reject", HttpMethod.DELETE)
+                );
+            case APPROVED:
+                return Arrays.asList(
+                        linkTo(methodOn(ProcurementRestController.class).getPlantHireRequestsById(plantHireRequest.getId())).withSelfRel()
+                );
+            case REJECTED:
+                return Arrays.asList(
+                        linkTo(methodOn(ProcurementRestController.class).getPlantHireRequestsById(plantHireRequest.getId())).withSelfRel()
+                );
+            default:
+                break;
+        }
+
+        return Collections.emptyList();
+    }
+
 }

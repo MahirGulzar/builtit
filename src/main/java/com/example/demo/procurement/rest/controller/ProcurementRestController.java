@@ -36,6 +36,26 @@ public class ProcurementRestController {
         return procurementService.getAllPlantHireRequests();
 
     }
+
+    @GetMapping("/{id}")
+    public Resource<PlantHireRequestDTO> getPlantHireRequestsById(@PathVariable("id") Long id ) {
+        return procurementService.getPlantHireRequestById(id);
+
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}/accept")
+    public Resource<PlantHireRequestDTO> approvePlantHireRequest(@PathVariable("id") Long id,
+                                                                 @RequestBody PlantHireRequestDTO phrDTO) {
+        return procurementService.approvePlantHireRequest(phrDTO);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{id}/accept")
+    public Resource<PlantHireRequestDTO> rejectPlantHireRequest(@PathVariable("id") Long id,
+                                                                @RequestBody PlantHireRequestDTO phrDTO) {
+        return procurementService.rejectPlantHireRequest(phrDTO);
+    }
 }
 
 
