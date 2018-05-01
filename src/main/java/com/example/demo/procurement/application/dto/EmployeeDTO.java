@@ -11,7 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Data
-@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@NoArgsConstructor(force = true, access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 public class EmployeeDTO extends ResourceSupport {
     Long _id;

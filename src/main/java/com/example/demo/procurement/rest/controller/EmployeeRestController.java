@@ -4,15 +4,14 @@ package com.example.demo.procurement.rest.controller;
 import com.example.demo.procurement.application.dto.EmployeeDTO;
 import com.example.demo.procurement.application.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/api/procurements/employees")
 @CrossOrigin
 public class EmployeeRestController {
 
@@ -20,7 +19,12 @@ public class EmployeeRestController {
     EmployeeService employeeService;
 
     @GetMapping()
-    public List<EmployeeDTO> findAllEmployees() {
+    public Resources<?> findAllEmployees() {
         return employeeService.findAllEmployees();
+    }
+
+    @GetMapping("/{id}")
+    public Resource<EmployeeDTO> findEmployee(@PathVariable("id") Long id) {
+        return employeeService.findEmployee(id);
     }
 }

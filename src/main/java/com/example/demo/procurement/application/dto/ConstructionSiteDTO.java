@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.hateoas.ResourceSupport;
 
 @Data
-@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@NoArgsConstructor(force = true, access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
 public class ConstructionSiteDTO extends ResourceSupport {
     Long _id;
