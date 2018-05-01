@@ -1,6 +1,7 @@
 package com.example.demo.rental.integration.gateways;
 
 import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
+import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
@@ -17,5 +18,5 @@ public interface RentalService {
     Object findPlants(@Payload String name, @Header("startDate") LocalDate startDate, @Header("endDate") LocalDate endDate);
 
     @Gateway(requestChannel = "req-po-channel", replyChannel = "rep-po-channel")
-    Object createPurchaseOrder(@Payload String name);
+    Object createPurchaseOrder(@Payload PurchaseOrderAcceptDTO po);
 }

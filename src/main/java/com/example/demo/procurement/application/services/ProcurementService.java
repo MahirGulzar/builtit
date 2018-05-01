@@ -2,7 +2,9 @@ package com.example.demo.procurement.application.services;
 
 
 import com.example.demo.common.domain.BusinessPeriod;
+import com.example.demo.procurement.application.dto.Plant;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
+import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.domain.model.ConstructionSite;
 import com.example.demo.procurement.domain.model.Employee;
 import com.example.demo.procurement.domain.model.PlantHireRequest;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 
 @Service
@@ -52,7 +56,18 @@ public class ProcurementService {
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
-        rentalService.createPurchaseOrder("");
+
+        PurchaseOrderAcceptDTO po = PurchaseOrderAcceptDTO.of(
+                Plant.of(
+                        plantHireRequest.getPlantInventoryEntry().get_id(),
+                        null,
+                        null,
+                        null
+                ),
+                plantHireRequestDTO.getRentalPeriod()
+        );
+
+        rentalService.createPurchaseOrder(po);
 
         plantHireRequest.approvePHR(worksEngineer,null);
 //        plantHireRequest.addComments(plantHireRequestDTO.getComments().getComment());

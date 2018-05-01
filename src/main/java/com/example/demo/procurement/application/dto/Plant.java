@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 @AllArgsConstructor(staticName = "of")
 public class Plant extends ResourceSupport {
-    String _id;
+    Long _id;
     String name;
     String description;
     BigDecimal price;
