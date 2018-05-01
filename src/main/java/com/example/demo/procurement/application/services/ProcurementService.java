@@ -10,6 +10,7 @@ import com.example.demo.procurement.domain.model.PlantInventoryEntry;
 import com.example.demo.procurement.domain.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 
 
@@ -36,13 +37,22 @@ public class ProcurementService {
     @Autowired
     ConstructionSiteRepository constructionSiteRepository;
 
+
+    public Resources<Resource<PlantHireRequestDTO>> getAllPlantHireRequests(){
+
+        return plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
+    }
+
     public Resource<PlantHireRequestDTO> createPlantHireRequest(PlantHireRequestDTO phrDTO) {
 
         Employee siteEngineer = employeeRepository.getOne(phrDTO.getSiteEngineer().get_id());
         Employee worksEngineer = null;
+
+        System.out.println(siteEngineer);
         ConstructionSite constructionSite = constructionSiteRepository.getOne(phrDTO.getConstructionSite().get_id());
 
         PlantInventoryEntry plant = null;
+        System.out.println(phrDTO.getPlantInventoryEntry());
         if(phrDTO.getPlantInventoryEntry() != null) {
             plant = PlantInventoryEntry.of(
                         phrDTO.getPlantInventoryEntry().get_id(),
@@ -76,8 +86,13 @@ public class ProcurementService {
         );
 
         PlantHireRequest phr = plantHireRequestRepository.save(request);
+        System.out.println("--------------"+request);
         return plantHireRequestAssembler.toResource(phr);
+
     }
+
+
+
 
 
 

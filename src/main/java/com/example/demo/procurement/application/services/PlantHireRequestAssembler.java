@@ -31,13 +31,13 @@ public class PlantHireRequestAssembler {
     ConstructionSiteAssembler productionSiteAssembler;
 
 
-/*    public Resources<Resource<PlantHireRequestDTO>> toResources(List<PlantHireRequest> orders){
-        return new Resources<>(orders.stream().map(o -> toResource(o)).collect(Collectors.toList()),
-                linkTo(methodOn(ProcurementRestController.class).findPurchaseOrders()).withSelfRel()
-                        .andAffordance(afford(methodOn(SalesRestController.class).createPurchaseOrder(null)))
+    public Resources<Resource<PlantHireRequestDTO>> toResources(List<PlantHireRequest> orders){
+        return new Resources<>(orders.stream().map(o -> toResource(o)).collect(Collectors.toList())
+//                linkTo(methodOn(ProcurementRestController.class).findPurchaseOrders()).withSelfRel()
+//                        .andAffordance(afford(methodOn(SalesRestController.class).createPurchaseOrder(null)))
 
         );
-    }*/
+    }
 
 
 
