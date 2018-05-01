@@ -51,15 +51,27 @@ public class PlantHireRequest {
     @Enumerated(EnumType.STRING)
     PHRStatus status;
 
+    @OneToOne
+    PurchaseOrder purchaseOrder;
+
     @Embedded
     Comment comments;
 
-    public void ApprovePHR()
-    {
-
+    public void approvePHR(Employee worksEngineer, PurchaseOrder purchaseOrder) {
+        this.worksEngineer=worksEngineer;
+        this.status=PHRStatus.APPROVED;
+        this.purchaseOrder=purchaseOrder;
+    }
+    public void rejectPHR(Employee worksEngineer) {
+        this.worksEngineer=worksEngineer;
+        this.status=PHRStatus.REJECTED;
+    }
+    public void addComments(String comments) {
+        this.comments = Comment.of(comments);
     }
 
-    
+
+
 
 
 
