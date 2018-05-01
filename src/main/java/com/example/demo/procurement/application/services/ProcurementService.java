@@ -75,6 +75,27 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
+
+    public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
+
+        Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
+        if(worksEngineer==null)
+        {
+            //TODO throw exception or something here...
+        }
+
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
+
+        // TODO create PurchaseOrder here....
+        plantHireRequest.setComments(plantHireRequestDTO.getComments());
+        plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
+        plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
+        plantHireRequest.setStatus(plantHireRequestDTO.getStatus());
+
+        plantHireRequestRepository.save(plantHireRequest);
+        return plantHireRequestAssembler.toResource(plantHireRequest);
+    }
+
     public Resource<PlantHireRequestDTO> rejectPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
         Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
