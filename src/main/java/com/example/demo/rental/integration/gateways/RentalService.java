@@ -17,6 +17,9 @@ public interface RentalService {
     @Gateway(requestChannel = "req-channel", replyChannel = "rep-channel")
     Object findPlants(@Payload String name, @Header("startDate") LocalDate startDate, @Header("endDate") LocalDate endDate);
 
-    @Gateway(requestChannel = "req-po-channel", replyChannel = "rep-po-channel")
-    Object createPurchaseOrder(@Payload PurchaseOrderAcceptDTO po);
+
+    //@Todo for project we will use this, right now we are going to REST TEMPLATE 3
+
+//    @Gateway(requestChannel = "req-po-channel", replyChannel = "rep-po-channel")
+//    Object createPurchaseOrder(@Payload PurchaseOrderAcceptDTO po);
 }

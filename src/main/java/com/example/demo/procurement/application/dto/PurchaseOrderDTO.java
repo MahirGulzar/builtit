@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 @Relation(value = "order", collectionRelation = "orders")
 public class PurchaseOrderDTO extends ResourceSupport {
     Long _id;
+    String href;
+
 
 
 //    Resource<Plant> plant;

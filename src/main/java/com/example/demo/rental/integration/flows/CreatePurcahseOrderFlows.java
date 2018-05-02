@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Configuration
 class CreatePurcahseOrderFlows {
 
+//@Todo for project we will use this, right now we are going to REST TEMPLATE 2
     @Bean
     IntegrationFlow rentItFlow() {
         return IntegrationFlows.from("req-po-channel")

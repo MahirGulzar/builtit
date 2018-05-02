@@ -5,15 +5,15 @@ import com.example.demo.common.domain.BusinessPeriod;
 import com.example.demo.procurement.application.dto.Plant;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
-import com.example.demo.procurement.domain.model.ConstructionSite;
-import com.example.demo.procurement.domain.model.Employee;
-import com.example.demo.procurement.domain.model.PlantHireRequest;
-import com.example.demo.procurement.domain.model.PlantInventoryEntry;
+import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
+import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.repository.*;
+import com.example.demo.rental.application.services.RentalServiceImpl;
 import com.example.demo.rental.integration.gateways.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -43,7 +43,7 @@ public class ProcurementService {
     ConstructionSiteRepository constructionSiteRepository;
 
     @Autowired
-    RentalService rentalService;
+    RentalServiceImpl rentalService;
 
 
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
@@ -67,9 +67,13 @@ public class ProcurementService {
                 plantHireRequestDTO.getRentalPeriod()
         );
 
-        rentalService.createPurchaseOrder(po);
+        PurchaseOrderDTO rtnPo =  rentalService.createPurchaseOrder(po);
 
-        plantHireRequest.approvePHR(worksEngineer,null);
+        PurchaseOrder phrPo = new PurchaseOrder();
+        phrPo.setHref(rtnPo.getHref());
+        purchaseOrderRepository.save(phrPo);
+
+        plantHireRequest.approvePHR(worksEngineer,phrPo);
 //        plantHireRequest.addComments(plantHireRequestDTO.getComments().getComment());
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);

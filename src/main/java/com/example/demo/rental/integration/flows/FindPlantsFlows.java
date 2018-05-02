@@ -19,7 +19,8 @@ class FindPlantsFlows {
         return IntegrationFlows.from("req-channel")
                 .publishSubscribeChannel(conf ->
                         conf.applySequence(true)
-                                .subscribe(f -> f.channel("rentmt-channel"))
+                                //TODO Will use Gather and Scatter once we implment the final project
+                                //.subscribe(f -> f.channel("rentmt-channel"))
                                 .subscribe(f -> f.channel("rentit-channel"))
                 )
                 .get();
