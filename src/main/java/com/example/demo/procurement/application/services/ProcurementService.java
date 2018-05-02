@@ -69,6 +69,7 @@ public class ProcurementService {
         purchaseOrderRepository.save(phrPo);
 
         plantHireRequest.approvePHR(worksEngineer,phrPo);
+        System.out.println(phrPo);
 //        plantHireRequest.addComments(plantHireRequestDTO.getComments().getComment());
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);

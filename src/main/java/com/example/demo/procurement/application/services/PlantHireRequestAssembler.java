@@ -33,6 +33,9 @@ public class PlantHireRequestAssembler {
     @Autowired
     ConstructionSiteAssembler productionSiteAssembler;
 
+    @Autowired
+    PurchaseOrderAssembler purchaseOrderAssembler;
+
 
     public Resources<Resource<PlantHireRequestDTO>> toResources(List<PlantHireRequest> orders){
         return new Resources<>(orders.stream().map(o -> toResource(o)).collect(Collectors.toList()),
@@ -52,6 +55,7 @@ public class PlantHireRequestAssembler {
         dto.setSiteEngineer(employeeAssembler.toResource(plantHireRequest.getSiteEngineer()));
         dto.setWorksEngineer(employeeAssembler.toResource(plantHireRequest.getWorksEngineer()));
         dto.setConstructionSite(productionSiteAssembler.toResource(plantHireRequest.getConstructionSite()));
+        dto.setOrder(purchaseOrderAssembler.toResource(plantHireRequest.getPurchaseOrder()));
 
 
         if(plantHireRequest.getPlantInventoryEntry() == null) {
