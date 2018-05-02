@@ -1,17 +1,13 @@
-package com.example.demo.rental.integration.flows;
+package com.example.demo.procurement.integration.flows;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.http.dsl.Http;
-import org.springframework.integration.scripting.dsl.Scripts;
 import org.springframework.messaging.MessageHeaders;
-
-import java.util.stream.Collectors;
 
 @Configuration
 class CreatePurcahseOrderFlows {

@@ -1,4 +1,4 @@
-package com.example.demo.rental.integration.flows;
+package com.example.demo.procurement.integration.flows;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

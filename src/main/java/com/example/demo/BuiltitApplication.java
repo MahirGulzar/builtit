@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.rental.integration.gateways.RentalService;
+import com.example.demo.procurement.integration.gateways.RentalGateway;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -53,7 +53,7 @@ public class BuiltitApplication {
 	
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(BuiltitApplication.class, args);
-		RentalService service = ctx.getBean(RentalService.class);
+		RentalGateway service = ctx.getBean(RentalGateway.class);
 
 		System.out.println(
 				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))

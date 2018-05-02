@@ -1,4 +1,4 @@
-package com.example.demo.rental.application.services;
+package com.example.demo.procurement.application.services;
 
 import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class RentalServiceImpl {
+public class RentalService {
     @Autowired
     RestTemplate restTemplate;
 

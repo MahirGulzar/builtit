@@ -1,6 +1,6 @@
 package com.example.demo.procurement.rest.controller;
 
-import com.example.demo.rental.integration.gateways.RentalService;
+import com.example.demo.procurement.integration.gateways.RentalGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class PlantsRestController {
 
     @Autowired
-    RentalService rentalService;
+    RentalGateway rentalGateway;
 
     @GetMapping()
     public Object findAvailablePlants(
@@ -28,7 +28,7 @@ public class PlantsRestController {
 //                throw new IllegalArgumentException("Something wrong with the requested period ('endDate' happens before 'startDate')");
 //            }
 
-            return rentalService.findPlants(plantName, startDate, endDate);
+            return rentalGateway.findPlants(plantName, startDate, endDate);
 //        } else {
 //            throw new IllegalArgumentException(
 //                    String.format("Wrong number of parameters: Name='%s', Start date='%s', End date='%s'",

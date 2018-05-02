@@ -1,19 +1,12 @@
 package com.example.demo.procurement.rest.controller;
 
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
-import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
-import com.example.demo.rental.integration.gateways.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/procurements/requests")

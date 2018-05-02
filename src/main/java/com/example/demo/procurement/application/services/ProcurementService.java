@@ -8,15 +8,10 @@ import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.repository.*;
-import com.example.demo.rental.application.services.RentalServiceImpl;
-import com.example.demo.rental.integration.gateways.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 
 @Service
@@ -43,7 +38,7 @@ public class ProcurementService {
     ConstructionSiteRepository constructionSiteRepository;
 
     @Autowired
-    RentalServiceImpl rentalService;
+    RentalService rentalService;
 
 
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){

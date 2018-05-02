@@ -1,8 +1,5 @@
-package com.example.demo.rental.integration.gateways;
+package com.example.demo.procurement.integration.gateways;
 
-import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
-import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.messaging.handler.annotation.Header;
@@ -13,7 +10,7 @@ import java.time.LocalDate;
 
 @Service
 @MessagingGateway
-public interface RentalService {
+public interface RentalGateway {
     @Gateway(requestChannel = "req-channel", replyChannel = "rep-channel")
     Object findPlants(@Payload String name, @Header("startDate") LocalDate startDate, @Header("endDate") LocalDate endDate);
 
