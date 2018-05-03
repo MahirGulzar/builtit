@@ -79,8 +79,12 @@ public class ProcurementService {
         purchaseOrderRepository.save(phrPo);
 
         plantHireRequest.approvePHR(worksEngineer,phrPo);
-        System.out.println(phrPo);
-        plantHireRequest.setComments(Comment.of(plantHireRequestDTO.getComments().getComment()));
+
+        System.out.println(plantHireRequestDTO.getComments());
+
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
@@ -95,8 +99,12 @@ public class ProcurementService {
         }
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
-        
-        plantHireRequest.setComments(plantHireRequestDTO.getComments());
+        System.out.println(plantHireRequestDTO.getComments());
+        System.out.println(plantHireRequestDTO.getComments());
+
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
         plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
         plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
         plantHireRequest.setStatus(plantHireRequestDTO.getStatus());
@@ -117,7 +125,9 @@ public class ProcurementService {
 
 
         plantHireRequest.rejectPHR(worksEngineer);
-        plantHireRequest.setComments(Comment.of(plantHireRequestDTO.getComments().getComment()));
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
