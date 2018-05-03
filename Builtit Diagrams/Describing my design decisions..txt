@@ -1,0 +1,7 @@
+We are using integration flows to get plants from RentIt, for now only one RentIt is connected. 
+
+Site Engineer will query the plants and once he selected the plant, PHR with status pending_approval 
+
+RentIT SiteEngineer can accept and reject PHR, if he rejects we are using REST Template to access RentIt and Purchase Order Will be created. 
+
+RentIT employee do have Front end to either reject or accept the PO. In both cases the BuiltIn will be notify via RestTemplate. 
