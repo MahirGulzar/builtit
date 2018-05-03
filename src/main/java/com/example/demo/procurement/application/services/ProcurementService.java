@@ -7,6 +7,7 @@ import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRe
 import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.domain.model.*;
+import com.example.demo.procurement.domain.model.embedable.Comment;
 import com.example.demo.procurement.domain.repository.*;
 import com.example.demo.procurement.rest.controller.EmployeeRestController;
 import com.example.demo.procurement.rest.controller.ProcurementRestController;
@@ -78,8 +79,12 @@ public class ProcurementService {
         purchaseOrderRepository.save(phrPo);
 
         plantHireRequest.approvePHR(worksEngineer,phrPo);
-        System.out.println(phrPo);
-//        plantHireRequest.addComments(plantHireRequestDTO.getComments().getComment());
+
+        System.out.println(plantHireRequestDTO.getComments());
+
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
@@ -94,9 +99,12 @@ public class ProcurementService {
         }
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
+        System.out.println(plantHireRequestDTO.getComments());
+        System.out.println(plantHireRequestDTO.getComments());
 
-        // TODO create PurchaseOrder here....
-        plantHireRequest.setComments(plantHireRequestDTO.getComments());
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
         plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
         plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
         plantHireRequest.setStatus(plantHireRequestDTO.getStatus());
@@ -115,11 +123,11 @@ public class ProcurementService {
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
-        // TODO create PurchaseOrder here....
-
 
         plantHireRequest.rejectPHR(worksEngineer);
-//        plantHireRequest.addComments(plantHireRequestDTO.getComments().getComment());
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
@@ -212,32 +220,5 @@ public class ProcurementService {
 
         return purchaseOrderDTO;
     }
-
-
-
-/* Purchase Orders */
-
-//    public List<PurchaseOrderDTO> findAllPO() {
-//        Resources<Resource<PlantHireRequestDTO>> phr = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
-//        //return phr.stream().map(x -> x.getPurchaseOrder()).collect(Collectors.toList());
-//    }
-
-//    public PurchaseOrderDTO findOnePO(String id) {
-//        List<PlantHireRequestDTO> phrs = phrAssembler.toResources(phrRepository.findAll());
-//
-//        PlantHireRequestDTO phrDTO = phrs.stream()
-//                .filter(x -> x.getPurchaseOrder().get_id().equals(id))
-//                .findAny().orElse(null);
-//
-//        if(phrDTO != null) return phrDTO.getPurchaseOrder();
-//
-//        return null;
-//    }
-//
-
-
-
-
-
 
 }

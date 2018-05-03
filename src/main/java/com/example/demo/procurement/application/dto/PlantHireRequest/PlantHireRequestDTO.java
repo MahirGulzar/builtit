@@ -2,10 +2,7 @@ package com.example.demo.procurement.application.dto.PlantHireRequest;
 
 
 import com.example.demo.common.application.dto.BusinessPeriodDTO;
-import com.example.demo.procurement.application.dto.ConstructionSiteDTO;
-import com.example.demo.procurement.application.dto.EmployeeDTO;
-import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
-import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
+import com.example.demo.procurement.application.dto.*;
 import com.example.demo.procurement.domain.model.PlantInventoryEntry;
 import com.example.demo.procurement.domain.model.embedable.Comment;
 import com.example.demo.procurement.domain.model.enums.PHRStatus;
@@ -40,7 +37,7 @@ public class PlantHireRequestDTO extends ResourceSupport {
 
     Resource<PurchaseOrderDTO> order;
 
-    Comment comments;
+    String comments;
 
 
 }

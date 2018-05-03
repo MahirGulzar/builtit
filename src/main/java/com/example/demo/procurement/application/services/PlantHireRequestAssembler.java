@@ -2,6 +2,7 @@ package com.example.demo.procurement.application.services;
 
 import com.example.demo.common.utils.ExtendedLink;
 import com.example.demo.common.application.dto.BusinessPeriodDTO;
+import com.example.demo.procurement.application.dto.CommentDTO;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
 import com.example.demo.procurement.domain.model.PlantHireRequest;
@@ -56,7 +57,9 @@ public class PlantHireRequestAssembler {
         dto.setWorksEngineer(employeeAssembler.toResource(plantHireRequest.getWorksEngineer()));
         dto.setConstructionSite(productionSiteAssembler.toResource(plantHireRequest.getConstructionSite()));
         dto.setOrder(purchaseOrderAssembler.toResource(plantHireRequest.getPurchaseOrder()));
-
+        if(plantHireRequest.getComments()!=null) {
+            dto.setComments(plantHireRequest.getComments().getComment());
+        }
 
         if(plantHireRequest.getPlantInventoryEntry() == null) {
             dto.setPlantInventoryEntry(PlantInventoryEntryDTO.of(

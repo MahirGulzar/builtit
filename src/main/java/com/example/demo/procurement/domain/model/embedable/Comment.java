@@ -1,14 +1,18 @@
 package com.example.demo.procurement.domain.model.embedable;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
 @Data
 @Embeddable
-@AllArgsConstructor(staticName = "of")
+@Value
+@NoArgsConstructor(force = true,access = AccessLevel.PUBLIC)
 public class Comment {
     String comment;
+
+    public Comment(String comment)
+    {
+        this.comment=comment;
+    }
 }

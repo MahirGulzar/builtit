@@ -72,9 +72,6 @@ public class PlantHireRequest {
     public void rejectPO() {
         this.status=PHRStatus.PO_REJECTED;
     }
-    public void addComments(String comments) {
-        this.comments = Comment.of(comments);
-    }
 
 
 
