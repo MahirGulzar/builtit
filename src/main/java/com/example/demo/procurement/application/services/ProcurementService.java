@@ -8,10 +8,14 @@ import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.repository.*;
+import com.example.demo.procurement.rest.controller.EmployeeRestController;
+import com.example.demo.procurement.rest.controller.ProcurementRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,7 +66,9 @@ public class ProcurementService {
                         null,
                         null
                 ),
-                plantHireRequestDTO.getRentalPeriod()
+                plantHireRequestDTO.getRentalPeriod(),
+                linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
+                linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
 
         PurchaseOrderDTO rtnPo =  rentalService.createPurchaseOrder(po);
@@ -177,13 +183,44 @@ public class ProcurementService {
     }
 
 
+    public PurchaseOrderDTO acceptPO(Long id) {
+
+        PlantHireRequest phr = plantHireRequestRepository.getOne(id);
+        if(phr == null) return null;
+
+        phr.acceptPO();
+
+        plantHireRequestRepository.save(phr);
+
+        // TODO return full representation of PO here
+        PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
+
+        return purchaseOrderDTO;
+    }
+
+    public PurchaseOrderDTO rejectPO(Long id) {
+
+        PlantHireRequest phr = plantHireRequestRepository.getOne(id);
+        if(phr == null) return null;
+
+        phr.rejectPO();
+
+        plantHireRequestRepository.save(phr);
+
+        // TODO return full representation of PO here
+        PurchaseOrderDTO purchaseOrderDTO = new PurchaseOrderDTO();
+
+        return purchaseOrderDTO;
+    }
+
+
 
 /* Purchase Orders */
 
-    public List<PurchaseOrderDTO> findAllPO() {
-        Resources<Resource<PlantHireRequestDTO>> phr = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
-        //return phr.stream().map(x -> x.getPurchaseOrder()).collect(Collectors.toList());
-    }
+//    public List<PurchaseOrderDTO> findAllPO() {
+//        Resources<Resource<PlantHireRequestDTO>> phr = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
+//        //return phr.stream().map(x -> x.getPurchaseOrder()).collect(Collectors.toList());
+//    }
 
 //    public PurchaseOrderDTO findOnePO(String id) {
 //        List<PlantHireRequestDTO> phrs = phrAssembler.toResources(phrRepository.findAll());
@@ -197,24 +234,7 @@ public class ProcurementService {
 //        return null;
 //    }
 //
-//    public PurchaseOrderDTO acceptPO(String id) {
-//
-//        PlantHireRequest phr = phrRepository.findOne(id);
-//        if(phr == null) return null;
-//
-//        phr.handleAcceptance();
-//        PurchaseOrderDTO poDTO = phrAssembler.toResource(phr).getPurchaseOrder();
-//        if(poDTO == null) return null;
-//
-//        poDTO.setStatus(POStatus.ACCEPTED);
-//
-//        PlantHireRequest updatedPHR = PlantHireRequest.of(
-//                phr.getId(), phr.getRentalPeriod(), phr.getStatus(), phr.getPlantInventoryEntry(),
-//                poDTO.asPurchaseOrder(), phr.getSiteEngineerName(), phr.getSite(), phr.getComment());
-//        phrRepository.save(updatedPHR);
-//
-//        return poDTO;
-//    }
+
 
 
 

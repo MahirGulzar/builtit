@@ -66,6 +66,12 @@ public class PlantHireRequest {
         this.worksEngineer=worksEngineer;
         this.status=PHRStatus.REJECTED;
     }
+    public void acceptPO() {
+        this.status=PHRStatus.PO_ACCEPTED;
+    }
+    public void rejectPO() {
+        this.status=PHRStatus.PO_REJECTED;
+    }
     public void addComments(String comments) {
         this.comments = Comment.of(comments);
     }

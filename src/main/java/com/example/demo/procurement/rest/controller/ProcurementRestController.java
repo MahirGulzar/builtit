@@ -1,6 +1,7 @@
 package com.example.demo.procurement.rest.controller;
 
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
+import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
@@ -58,6 +59,23 @@ public class ProcurementRestController {
     public Resource<PlantHireRequestDTO> rejectPlantHireRequest(@PathVariable("id") Long id,
                                                                 @RequestBody PlantHireRequestDTO phrDTO) {
         return procurementService.rejectPlantHireRequest(phrDTO);
+    }
+
+    // PO accept by RentIT
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/{id}/acceptorder")
+    public PurchaseOrderDTO acceptPO(@PathVariable("id") Long id) {
+
+        System.out.println("Request for accept received with ID ="+id);
+        return procurementService.acceptPO(id);
+    }
+
+    // PO reject by RentIT
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{id}/rejectorder")
+    public PurchaseOrderDTO rejectPO(@PathVariable("id") Long id) {
+        System.out.println("Request for accept received with ID ="+id);
+        return procurementService.rejectPO(id);
     }
 }
 

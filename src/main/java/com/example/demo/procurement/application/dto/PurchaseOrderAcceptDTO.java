@@ -17,4 +17,9 @@ public class PurchaseOrderAcceptDTO implements Serializable {
 
     public Plant plant;
     public BusinessPeriodDTO rentalPeriod;
+
+    public String acceptHref;
+    public String rejectHref;
+
+
 }
