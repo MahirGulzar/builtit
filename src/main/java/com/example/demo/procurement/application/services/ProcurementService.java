@@ -13,6 +13,9 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class ProcurementService {
@@ -174,6 +177,44 @@ public class ProcurementService {
     }
 
 
+
+/* Purchase Orders */
+
+    public List<PurchaseOrderDTO> findAllPO() {
+        Resources<Resource<PlantHireRequestDTO>> phr = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
+        //return phr.stream().map(x -> x.getPurchaseOrder()).collect(Collectors.toList());
+    }
+
+//    public PurchaseOrderDTO findOnePO(String id) {
+//        List<PlantHireRequestDTO> phrs = phrAssembler.toResources(phrRepository.findAll());
+//
+//        PlantHireRequestDTO phrDTO = phrs.stream()
+//                .filter(x -> x.getPurchaseOrder().get_id().equals(id))
+//                .findAny().orElse(null);
+//
+//        if(phrDTO != null) return phrDTO.getPurchaseOrder();
+//
+//        return null;
+//    }
+//
+//    public PurchaseOrderDTO acceptPO(String id) {
+//
+//        PlantHireRequest phr = phrRepository.findOne(id);
+//        if(phr == null) return null;
+//
+//        phr.handleAcceptance();
+//        PurchaseOrderDTO poDTO = phrAssembler.toResource(phr).getPurchaseOrder();
+//        if(poDTO == null) return null;
+//
+//        poDTO.setStatus(POStatus.ACCEPTED);
+//
+//        PlantHireRequest updatedPHR = PlantHireRequest.of(
+//                phr.getId(), phr.getRentalPeriod(), phr.getStatus(), phr.getPlantInventoryEntry(),
+//                poDTO.asPurchaseOrder(), phr.getSiteEngineerName(), phr.getSite(), phr.getComment());
+//        phrRepository.save(updatedPHR);
+//
+//        return poDTO;
+//    }
 
 
 
