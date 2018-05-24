@@ -56,7 +56,19 @@ public class ProcurementService {
     @Autowired
     RentalService rentalService;
 
+    /* Get All PHRs */
+    public Resources<Resource<PlantHireRequestDTO>> getAllPlantHireRequests(){
 
+        return plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
+    }
+
+    /* Get One PHR By Id */
+    public Resource<PlantHireRequestDTO> getPlantHireRequestById(long id)
+    {
+        return plantHireRequestAssembler.toResource(plantHireRequestRepository.findById(id));
+    }
+
+    /* Create PHR */
     public Resource<PlantHireRequestDTO> createPlantHireRequest(PlantHireRequestDTO phrDTO) {
 
         Employee siteEngineer = employeeRepository.getOne(phrDTO.getSiteEngineer().getContent().get_id());
@@ -105,7 +117,9 @@ public class ProcurementService {
 
     }
 
+    /* Update PHR (Both SiteEngineer and Word Engineer) */
     public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
+
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
@@ -130,6 +144,7 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
+    /* Cancel PHR  */
     public Resource<PlantHireRequestDTO> cancelPlantHireRequest(Long id){
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(id);
@@ -155,7 +170,7 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
-
+    /* Approve PHR  */
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
         Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
@@ -197,7 +212,9 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
+    /* Reject PHR  */
     public Resource<PlantHireRequestDTO> rejectPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
+
 
         Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
         if(worksEngineer==null)
@@ -216,17 +233,7 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
-    public Resource<PlantHireRequestDTO> getPlantHireRequestById(long id)
-    {
-        return plantHireRequestAssembler.toResource(plantHireRequestRepository.findById(id));
-    }
-
-    public Resources<Resource<PlantHireRequestDTO>> getAllPlantHireRequests(){
-
-        return plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
-    }
-
-
+    /* Accept PO  */
     public PurchaseOrderDTO acceptPO(Long id) {
 
         PlantHireRequest phr = plantHireRequestRepository.getOne(id);
@@ -242,7 +249,9 @@ public class ProcurementService {
         return purchaseOrderDTO;
     }
 
+    /* Reject PO  */
     public PurchaseOrderDTO rejectPO(Long id) {
+
 
         PlantHireRequest phr = plantHireRequestRepository.getOne(id);
         if(phr == null) return null;
