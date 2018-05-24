@@ -85,6 +85,7 @@ public class ProcurementRestController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}/rejectorder")
     public PurchaseOrderDTO rejectPO(@PathVariable("id") Long id) {
+
         System.out.println("Request for accept received with ID ="+id);
         return procurementService.rejectPO(id);
     }
