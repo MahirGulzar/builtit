@@ -1,6 +1,7 @@
 package com.example.demo.procurement.application.services;
 
 
+import com.example.demo.common.application.dto.BusinessPeriodDTO;
 import com.example.demo.common.domain.BusinessPeriod;
 import com.example.demo.procurement.application.dto.Plant;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
@@ -281,6 +282,10 @@ public class ProcurementService {
         if(purchaseOrder == null) return null;
        return rentalService.getPurchaseOrder(purchaseOrder.getHref());
 
+    }
+
+    public ResponseEntity<PlantHireRequestDTO> extendPlantHireRequest(Long Id, BusinessPeriodDTO rentalPeriod) {
+        return null;
     }
 
 

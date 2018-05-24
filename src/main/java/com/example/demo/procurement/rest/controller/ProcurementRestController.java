@@ -1,10 +1,12 @@
 package com.example.demo.procurement.rest.controller;
 
+import com.example.demo.common.application.dto.BusinessPeriodDTO;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
 import com.example.demo.procurement.domain.model.PlantHireRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/procurements/requests")
@@ -72,6 +75,16 @@ public class ProcurementRestController {
         return procurementService.rejectPlantHireRequest(phrDTO);
     }
 
+    @PostMapping("/{id}/extend")
+
+    public ResponseEntity<PlantHireRequestDTO> extendPlantHireRequest( @PathVariable("id") Long id, @RequestBody BusinessPeriodDTO rentalPeriod) throws Exception {
+        ResponseEntity<PlantHireRequestDTO> plantHireRequestDTO = procurementService.extendPlantHireRequest(id, rentalPeriod);
+
+        return plantHireRequestDTO;
+
+    }
+
+
     // PO accept by RentIT
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{id}/acceptorder")
@@ -89,6 +102,9 @@ public class ProcurementRestController {
         System.out.println("Request for accept received with ID ="+id);
         return procurementService.rejectPO(id);
     }
+
+
+
 }
 
 
