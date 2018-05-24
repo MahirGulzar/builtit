@@ -72,6 +72,9 @@ public class PlantHireRequest {
     public void rejectPO() {
         this.status=PHRStatus.PO_REJECTED;
     }
+    public void cancelPHR() {
+        this.status=PHRStatus.CANCELED;
+    }
 
 
 

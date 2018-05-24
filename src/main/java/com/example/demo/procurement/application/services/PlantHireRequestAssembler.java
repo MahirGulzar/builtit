@@ -63,7 +63,7 @@ public class PlantHireRequestAssembler {
           //  dto.setComments(plantHireRequest.getComments().getComment()); //TODO verify
         }
 
-        System.out.println("Check 3");
+
         if(plantHireRequest.getPlantInventoryEntry() == null) {
             dto.setPlantInventoryEntry(PlantInventoryEntryDTO.of(
                     null,

@@ -15,10 +15,14 @@ import com.example.demo.procurement.rest.controller.ProcurementRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,6 +45,9 @@ public class ProcurementService {
 
     @Autowired
     PlantHireRequestAssembler plantHireRequestAssembler;
+
+    @Autowired
+    PurchaseOrderAssembler purchaseOrderAssembler;
 
 
     @Autowired
@@ -122,6 +129,32 @@ public class ProcurementService {
 
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
+
+    public Resource<PlantHireRequestDTO> cancelPlantHireRequest(Long id){
+
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(id);
+        System.out.println(plantHireRequest);
+
+        if(plantHireRequest == null) return null;
+
+        // we are assuming here that if status is still PENDING_APPROVAL, no need to go for rentIT or check for dates.
+        if(plantHireRequest.getStatus() == PHRStatus.PENDING_APPROVAL) {
+            plantHireRequest.cancelPHR();
+        } else {
+            if(plantHireRequest.getRentalPeriod().getStartDate().isAfter(LocalDate.now().minusDays(1)) && !plantHireRequest.getRentalPeriod().getStartDate().isEqual(LocalDate.now())) {
+
+                PurchaseOrderDTO purchaseOrderDTO = plantHireRequestAssembler.toResource(plantHireRequest).getContent().getOrder().getContent();
+                PurchaseOrderDTO cancelledPO = rentalService.requestSupplierForPOCancellation(purchaseOrderDTO);
+                plantHireRequest.setPurchaseOrder(cancelledPO.asPurchaseOrder());
+                plantHireRequest.cancelPHR(); //Todo assuming that there is no concept of CancelPending
+
+            } else return null;
+        }
+
+        plantHireRequestRepository.save(plantHireRequest);
+        return plantHireRequestAssembler.toResource(plantHireRequest);
+    }
+
 
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 

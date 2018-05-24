@@ -7,8 +7,12 @@ import com.example.demo.procurement.domain.model.PlantHireRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/procurements/requests")
@@ -48,6 +52,11 @@ public class ProcurementRestController {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/{id}/cancel") //TODO not working due to return type
+    public Resource<PlantHireRequestDTO> cancelPlantHireRequest(@PathVariable("id") Long id) throws Exception {
+        return  procurementService.cancelPlantHireRequest(id);
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{id}/accept")

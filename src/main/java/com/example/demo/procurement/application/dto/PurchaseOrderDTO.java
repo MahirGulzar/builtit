@@ -1,6 +1,7 @@
 package com.example.demo.procurement.application.dto;
 
 
+import com.example.demo.procurement.domain.model.PurchaseOrder;
 import lombok.Data;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
@@ -15,7 +16,9 @@ public class PurchaseOrderDTO extends ResourceSupport {
     Long _id;
     String href;
 
-
+    public PurchaseOrder asPurchaseOrder(){
+        return PurchaseOrder.of(_id, href);
+    }
 
 //    Resource<Plant> plant;
 //    BusinessPeriodDTO rentalPeriod;
