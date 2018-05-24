@@ -255,7 +255,6 @@ public class ProcurementService {
     /* Reject PO  */
     public PurchaseOrderDTO rejectPO(Long id) {
 
-
         PlantHireRequest phr = plantHireRequestRepository.getOne(id);
         if(phr == null) return null;
 
@@ -270,7 +269,7 @@ public class ProcurementService {
     }
 
     public List<PurchaseOrderDTO> findAllPurchaseOrder() {
-
+        //Todo it throw error when there is any pending PHR as PO is not created
         Resources<Resource<PlantHireRequestDTO>> allPHR = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
         List<PurchaseOrderDTO> returnPO = allPHR.getContent().stream().map(x -> x.getContent().getOrder().getContent()).collect(Collectors.toList());
         return returnPO;
