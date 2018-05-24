@@ -3,6 +3,7 @@ package com.example.demo.procurement.rest.controller;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
+import com.example.demo.procurement.domain.model.PlantHireRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -17,22 +18,29 @@ public class ProcurementRestController {
     @Autowired
     ProcurementService procurementService;
 
+    @GetMapping()
+    public Resources<Resource<PlantHireRequestDTO>> getPlantHireRequests() {
+        return procurementService.getAllPlantHireRequests();
+    }
 
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public Resource<PlantHireRequestDTO> createPlantHireRequest(@RequestBody PlantHireRequestDTO phrDTO) {
-//        System.out.println(phrDTO);
         return procurementService.createPlantHireRequest(phrDTO);
-
     }
 
-    @GetMapping()
-    public Resources<Resource<PlantHireRequestDTO>> getPlantHireRequests() {
-//        System.out.println(phrDTO);
-        return procurementService.getAllPlantHireRequests();
+    /*
+        Update Plant Hire Request
+     */
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}")
+    public Resource<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable("id") Long id,
+                                                                @RequestBody PlantHireRequestDTO phrDTO) {
+        return procurementService.updatePlantHireRequest(phrDTO);
     }
+
 
     @GetMapping("/{id}")
     public Resource<PlantHireRequestDTO> getPlantHireRequestsById(@PathVariable("id") Long id ) {
@@ -40,12 +48,6 @@ public class ProcurementRestController {
 
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{id}")
-    public Resource<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable("id") Long id,
-                                                                 @RequestBody PlantHireRequestDTO phrDTO) {
-        return procurementService.updatePlantHireRequest(phrDTO);
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{id}/accept")

@@ -8,6 +8,7 @@ import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.model.embedable.Comment;
+import com.example.demo.procurement.domain.model.enums.PHRStatus;
 import com.example.demo.procurement.domain.repository.*;
 import com.example.demo.procurement.rest.controller.EmployeeRestController;
 import com.example.demo.procurement.rest.controller.ProcurementRestController;
@@ -49,6 +50,79 @@ public class ProcurementService {
     RentalService rentalService;
 
 
+    public Resource<PlantHireRequestDTO> createPlantHireRequest(PlantHireRequestDTO phrDTO) {
+
+        Employee siteEngineer = employeeRepository.getOne(phrDTO.getSiteEngineer().getContent().get_id());
+        Employee worksEngineer = null;
+
+        System.out.println(siteEngineer);
+        ConstructionSite constructionSite = constructionSiteRepository.getOne(phrDTO.getConstructionSite().getContent().get_id());
+
+        PlantInventoryEntry plant = null;
+        //System.out.println(phrDTO.getPlantInventoryEntry());
+        if(phrDTO.getPlantInventoryEntry() != null) {
+            plant = PlantInventoryEntry.of(
+                    phrDTO.getPlantInventoryEntry().get_id(),
+                    phrDTO.getPlantInventoryEntry().getName(),
+                    phrDTO.getPlantInventoryEntry().getDescription(),
+                    phrDTO.getPlantInventoryEntry().getPrice(),
+                    phrDTO.getPlantInventoryEntry().get_link(),
+                    null);
+            plantInventoryEntryRepository.save(plant);
+        }
+        else {
+            return null;
+        }
+
+
+        BusinessPeriod rentalPeriod = null;
+        if(phrDTO.getRentalPeriod() != null) {
+            rentalPeriod = BusinessPeriod.of(
+                    phrDTO.getRentalPeriod().getStartDate(),
+                    phrDTO.getRentalPeriod().getEndDate());
+        }
+        else {
+            return null;
+        }
+
+        PlantHireRequest request = PlantHireRequest.of(
+                plant,
+                rentalPeriod,
+                siteEngineer,
+                constructionSite
+        );
+
+        PlantHireRequest phr = plantHireRequestRepository.save(request);
+        System.out.println("--------------"+request);
+        return plantHireRequestAssembler.toResource(phr);
+
+    }
+
+    public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
+
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
+
+        if(plantHireRequest == null || plantHireRequest.getStatus() != PHRStatus.PENDING_APPROVAL) return null;
+
+        Comment comment = new Comment(plantHireRequestDTO.getComments());
+        System.out.println(comment);
+        plantHireRequest.setComments(comment);
+        plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
+        plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
+        //plantHireRequest.setStatus(plantHireRequestDTO.getStatus()); //TODO need to check later that status should be here or not
+        //System.out.println(plantHireRequest);
+
+        if(plantHireRequestDTO.getWorksEngineer() != null)
+        {
+            Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
+            plantHireRequest.setWorksEngineer(worksEngineer);
+        }
+        plantHireRequestRepository.save(plantHireRequest);
+
+
+        return plantHireRequestAssembler.toResource(plantHireRequest);
+    }
+
     public Resource<PlantHireRequestDTO> approvePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
         Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
@@ -80,36 +154,13 @@ public class ProcurementService {
 
         plantHireRequest.approvePHR(worksEngineer,phrPo);
 
-        System.out.println(plantHireRequestDTO.getComments());
 
         Comment comment = new Comment(plantHireRequestDTO.getComments());
-        System.out.println(comment);
+
         plantHireRequest.setComments(comment);
-        plantHireRequestRepository.save(plantHireRequest);
-        return plantHireRequestAssembler.toResource(plantHireRequest);
-    }
-
-
-    public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
-
-        Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
-        if(worksEngineer==null)
-        {
-            //TODO throw exception or something here...
-        }
-
-        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
-        System.out.println(plantHireRequestDTO.getComments());
-        System.out.println(plantHireRequestDTO.getComments());
-
-        Comment comment = new Comment(plantHireRequestDTO.getComments());
-        System.out.println(comment);
-        plantHireRequest.setComments(comment);
-        plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
-        plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
-        plantHireRequest.setStatus(plantHireRequestDTO.getStatus());
 
         plantHireRequestRepository.save(plantHireRequest);
+
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
@@ -140,54 +191,6 @@ public class ProcurementService {
     public Resources<Resource<PlantHireRequestDTO>> getAllPlantHireRequests(){
 
         return plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
-    }
-
-    public Resource<PlantHireRequestDTO> createPlantHireRequest(PlantHireRequestDTO phrDTO) {
-
-        Employee siteEngineer = employeeRepository.getOne(phrDTO.getSiteEngineer().getContent().get_id());
-        Employee worksEngineer = null;
-
-        System.out.println(siteEngineer);
-        ConstructionSite constructionSite = constructionSiteRepository.getOne(phrDTO.getConstructionSite().getContent().get_id());
-
-        PlantInventoryEntry plant = null;
-        System.out.println(phrDTO.getPlantInventoryEntry());
-        if(phrDTO.getPlantInventoryEntry() != null) {
-            plant = PlantInventoryEntry.of(
-                        phrDTO.getPlantInventoryEntry().get_id(),
-                        phrDTO.getPlantInventoryEntry().getName(),
-                        phrDTO.getPlantInventoryEntry().getDescription(),
-                        phrDTO.getPlantInventoryEntry().getPrice(),
-                        phrDTO.getPlantInventoryEntry().get_link(),
-                        null);
-            plantInventoryEntryRepository.save(plant);
-        }
-        else {
-            return null;
-        }
-
-
-        BusinessPeriod rentalPeriod = null;
-        if(phrDTO.getRentalPeriod() != null) {
-            rentalPeriod = BusinessPeriod.of(
-                    phrDTO.getRentalPeriod().getStartDate(),
-                    phrDTO.getRentalPeriod().getEndDate());
-        }
-        else {
-            return null;
-        }
-
-        PlantHireRequest request = PlantHireRequest.of(
-                plant,
-                rentalPeriod,
-                siteEngineer,
-                constructionSite
-        );
-
-        PlantHireRequest phr = plantHireRequestRepository.save(request);
-        System.out.println("--------------"+request);
-        return plantHireRequestAssembler.toResource(phr);
-
     }
 
 

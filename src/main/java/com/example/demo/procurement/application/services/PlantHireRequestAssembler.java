@@ -54,13 +54,16 @@ public class PlantHireRequestAssembler {
 
         dto.set_id(plantHireRequest.getId());
         dto.setSiteEngineer(employeeAssembler.toResource(plantHireRequest.getSiteEngineer()));
+
         dto.setWorksEngineer(employeeAssembler.toResource(plantHireRequest.getWorksEngineer()));
         dto.setConstructionSite(productionSiteAssembler.toResource(plantHireRequest.getConstructionSite()));
         dto.setOrder(purchaseOrderAssembler.toResource(plantHireRequest.getPurchaseOrder()));
+
         if(plantHireRequest.getComments()!=null) {
-            dto.setComments(plantHireRequest.getComments().getComment());
+          //  dto.setComments(plantHireRequest.getComments().getComment()); //TODO verify
         }
 
+        System.out.println("Check 3");
         if(plantHireRequest.getPlantInventoryEntry() == null) {
             dto.setPlantInventoryEntry(PlantInventoryEntryDTO.of(
                     null,
@@ -92,7 +95,6 @@ public class PlantHireRequestAssembler {
                     plantHireRequest.getRentalPeriod().getStartDate(),
                     plantHireRequest.getRentalPeriod().getEndDate()));
         }
-
         dto.setStatus(plantHireRequest.getStatus());
 
 /*
@@ -127,6 +129,7 @@ public class PlantHireRequestAssembler {
                 break;
         }
 */
+
         return new Resource<>(
                 dto,
                 linkFor(plantHireRequest)
