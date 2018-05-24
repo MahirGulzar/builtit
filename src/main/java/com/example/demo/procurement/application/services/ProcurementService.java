@@ -6,6 +6,7 @@ import com.example.demo.procurement.application.dto.Plant;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
+import com.example.demo.procurement.application.dto.PurchaseOrderSupplierDTO;
 import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.model.embedable.Comment;
 import com.example.demo.procurement.domain.model.enums.PHRStatus;
@@ -23,7 +24,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -265,5 +268,21 @@ public class ProcurementService {
 
         return purchaseOrderDTO;
     }
+
+    public List<PurchaseOrderDTO> findAllPurchaseOrder() {
+
+        Resources<Resource<PlantHireRequestDTO>> allPHR = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
+        List<PurchaseOrderDTO> returnPO = allPHR.getContent().stream().map(x -> x.getContent().getOrder().getContent()).collect(Collectors.toList());
+        return returnPO;
+    }
+
+    public PurchaseOrderSupplierDTO findOnePurchaseOrder(Long id) {
+
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(id).get();
+        if(purchaseOrder == null) return null;
+       return rentalService.getPurchaseOrder(purchaseOrder.getHref());
+
+    }
+
 
 }

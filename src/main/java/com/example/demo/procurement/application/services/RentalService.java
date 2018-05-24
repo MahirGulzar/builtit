@@ -2,6 +2,8 @@ package com.example.demo.procurement.application.services;
 
 import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
+import com.example.demo.procurement.application.dto.PurchaseOrderSupplierDTO;
+import com.example.demo.procurement.domain.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -36,12 +38,16 @@ public class RentalService {
         PurchaseOrderDTO  po= new PurchaseOrderDTO();
         po.setHref(result.getHeaders().getLocation().toString());
         return po;
-
-
     }
 
+    public PurchaseOrderSupplierDTO getPurchaseOrder(String linkPO) {
 
+        ResponseEntity<PurchaseOrderSupplierDTO> result = restTemplate.getForEntity(linkPO, PurchaseOrderSupplierDTO.class);
 
+        if (result == null &&  result.getStatusCode() != HttpStatus.OK)
+            return new PurchaseOrderSupplierDTO();
+        return result.getBody();
+    }
 }
 
 
