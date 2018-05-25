@@ -28,6 +28,7 @@ public class RentalService {
         return po;
     }
 
+
     public PurchaseOrderDTO requestSupplierForPOCancellation(PurchaseOrderDTO purchaseOrderDTO) {
         ResponseEntity<PurchaseOrderDTO> response;
 
@@ -47,6 +48,19 @@ public class RentalService {
         if (result == null &&  result.getStatusCode() != HttpStatus.OK)
             return new PurchaseOrderSupplierDTO();
         return result.getBody();
+    }
+
+
+    public PurchaseOrderDTO extendPurchaseOrder(PurchaseOrderAcceptDTO purchaseOrderDTO, String linkPO) {
+        ResponseEntity<PurchaseOrderDTO> result = restTemplate.postForEntity(linkPO+"/extension", purchaseOrderDTO, PurchaseOrderDTO.class);
+
+        if (result == null &&  result.getStatusCode() != HttpStatus.CREATED)
+            return new PurchaseOrderDTO();
+
+        PurchaseOrderDTO  po= new PurchaseOrderDTO();
+
+        po.setHref(result.getHeaders().getLocation().toString());
+        return po;
     }
 }
 

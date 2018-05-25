@@ -216,6 +216,46 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
+    public Resource<PlantHireRequestDTO> extendPlantHireRequest(Long id, LocalDate endDate) {
+
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(id);
+        if(plantHireRequest == null) return null;
+
+        plantHireRequest.setRentalPeriod(BusinessPeriod.of(plantHireRequest.getRentalPeriod().getStartDate(), endDate));
+
+        PurchaseOrderAcceptDTO po = PurchaseOrderAcceptDTO.of(
+                Plant.of(
+                        plantHireRequest.getPlantInventoryEntry().get_id(),
+                        null,
+                        null,
+                        null
+                ),
+                BusinessPeriodDTO.of(
+                        plantHireRequest.getRentalPeriod().getStartDate(),
+                        plantHireRequest.getRentalPeriod().getEndDate()
+                ),
+                linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
+                linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
+        );
+
+        String linkPO = plantHireRequest.getPurchaseOrder().getHref();
+
+        PurchaseOrderDTO rtnPo =  rentalService.extendPurchaseOrder(po, linkPO);
+
+        PurchaseOrder phrPo = new PurchaseOrder();
+        phrPo.setHref(rtnPo.getHref());
+        purchaseOrderRepository.save(phrPo);
+
+        plantHireRequest.extendPlantHireRequest(phrPo);
+
+        plantHireRequestRepository.save(plantHireRequest);
+
+        return plantHireRequestAssembler.toResource(plantHireRequest);
+
+    }
+
+
+
     /* Reject PHR  */
     public Resource<PlantHireRequestDTO> rejectPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
@@ -284,9 +324,6 @@ public class ProcurementService {
 
     }
 
-    public ResponseEntity<PlantHireRequestDTO> extendPlantHireRequest(Long Id, BusinessPeriodDTO rentalPeriod) {
-        return null;
-    }
 
 
 }

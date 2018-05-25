@@ -77,9 +77,9 @@ public class ProcurementRestController {
 
     @PostMapping("/{id}/extend")
 
-    public ResponseEntity<PlantHireRequestDTO> extendPlantHireRequest( @PathVariable("id") Long id, @RequestBody BusinessPeriodDTO rentalPeriod) throws Exception {
-        ResponseEntity<PlantHireRequestDTO> plantHireRequestDTO = procurementService.extendPlantHireRequest(id, rentalPeriod);
+    public Resource<PlantHireRequestDTO> extendPlantHireRequest( @PathVariable("id") Long id, @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws Exception {
 
+        Resource<PlantHireRequestDTO> plantHireRequestDTO = procurementService.extendPlantHireRequest(id, endDate);
         return plantHireRequestDTO;
 
     }
