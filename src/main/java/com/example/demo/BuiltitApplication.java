@@ -55,9 +55,9 @@ public class BuiltitApplication {
 		ConfigurableApplicationContext ctx = SpringApplication.run(BuiltitApplication.class, args);
 		RentalGateway service = ctx.getBean(RentalGateway.class);
 
-		System.out.println(
-				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
-		);
+//		System.out.println(
+//				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
+//		);
 
 	}
 }

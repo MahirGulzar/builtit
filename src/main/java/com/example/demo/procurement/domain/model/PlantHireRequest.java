@@ -2,6 +2,7 @@ package com.example.demo.procurement.domain.model;
 
 
 import com.example.demo.common.domain.BusinessPeriod;
+import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.domain.model.embedable.Comment;
 import com.example.demo.procurement.domain.model.enums.PHRStatus;
 import lombok.Data;
@@ -71,6 +72,14 @@ public class PlantHireRequest {
     }
     public void rejectPO() {
         this.status=PHRStatus.PO_REJECTED;
+    }
+    public void cancelPHR() {
+        this.status=PHRStatus.CANCELED;
+    }
+
+    public void extendPlantHireRequest(PurchaseOrder purchaseOrder) {
+        this.status=PHRStatus.PENDING_EXTENSION;
+        this.purchaseOrder=purchaseOrder;
     }
 
 

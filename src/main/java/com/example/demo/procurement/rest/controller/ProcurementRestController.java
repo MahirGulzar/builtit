@@ -1,13 +1,21 @@
 package com.example.demo.procurement.rest.controller;
 
+import com.example.demo.common.application.dto.BusinessPeriodDTO;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
+import com.example.demo.procurement.domain.model.PlantHireRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/procurements/requests")
@@ -17,22 +25,29 @@ public class ProcurementRestController {
     @Autowired
     ProcurementService procurementService;
 
+    @GetMapping()
+    public Resources<Resource<PlantHireRequestDTO>> getPlantHireRequests() {
+        return procurementService.getAllPlantHireRequests();
+    }
 
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public Resource<PlantHireRequestDTO> createPlantHireRequest(@RequestBody PlantHireRequestDTO phrDTO) {
-//        System.out.println(phrDTO);
         return procurementService.createPlantHireRequest(phrDTO);
-
     }
 
-    @GetMapping()
-    public Resources<Resource<PlantHireRequestDTO>> getPlantHireRequests() {
-//        System.out.println(phrDTO);
-        return procurementService.getAllPlantHireRequests();
+    /*
+        Update Plant Hire Request
+     */
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/{id}")
+    public Resource<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable("id") Long id,
+                                                                @RequestBody PlantHireRequestDTO phrDTO) {
+        return procurementService.updatePlantHireRequest(phrDTO);
     }
+
 
     @GetMapping("/{id}")
     public Resource<PlantHireRequestDTO> getPlantHireRequestsById(@PathVariable("id") Long id ) {
@@ -41,10 +56,9 @@ public class ProcurementRestController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping("/{id}")
-    public Resource<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable("id") Long id,
-                                                                 @RequestBody PlantHireRequestDTO phrDTO) {
-        return procurementService.updatePlantHireRequest(phrDTO);
+    @DeleteMapping("/{id}/cancel") //TODO not working due to return type
+    public Resource<PlantHireRequestDTO> cancelPlantHireRequest(@PathVariable("id") Long id) throws Exception {
+        return  procurementService.cancelPlantHireRequest(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -61,6 +75,16 @@ public class ProcurementRestController {
         return procurementService.rejectPlantHireRequest(phrDTO);
     }
 
+    @PostMapping("/{id}/extend")
+
+    public Resource<PlantHireRequestDTO> extendPlantHireRequest( @PathVariable("id") Long id, @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws Exception {
+
+        Resource<PlantHireRequestDTO> plantHireRequestDTO = procurementService.extendPlantHireRequest(id, endDate);
+        return plantHireRequestDTO;
+
+    }
+
+
     // PO accept by RentIT
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/{id}/acceptorder")
@@ -74,9 +98,13 @@ public class ProcurementRestController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}/rejectorder")
     public PurchaseOrderDTO rejectPO(@PathVariable("id") Long id) {
+
         System.out.println("Request for accept received with ID ="+id);
         return procurementService.rejectPO(id);
     }
+
+
+
 }
 
 
