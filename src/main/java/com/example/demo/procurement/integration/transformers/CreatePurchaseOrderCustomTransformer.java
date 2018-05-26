@@ -1,6 +1,7 @@
 package com.example.demo.procurement.integration.transformers;
 
 import com.example.demo.procurement.application.dto.Plant;
+import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,13 @@ public class CreatePurchaseOrderCustomTransformer {
     @Qualifier("objectMapper")
     ObjectMapper mapper;
 
-    public Resources<Resource<Plant>> fromHALForms(String json) {
+    public Resource<PurchaseOrderDTO> fromHALForms(String json) {
         try {
-            return mapper.readValue(json, new TypeReference<Resources<Resource<Plant>>>() {});
+            return mapper.readValue(json, new TypeReference<Resource<PurchaseOrderDTO>>() {});
         } catch (IOException e) {
             return null;
         }
+
     }
 
 }

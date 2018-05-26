@@ -69,7 +69,8 @@ class CreatePurcahseOrderFlows {
                         .httpMethod(HttpMethod.POST).requestFactory(requestFactory())
                         .expectedResponseType(String.class)
                 )
-//                .handle("createPurchaseOrderCustomTransformer", "fromHALForms")
+                .handle("createPurchaseOrderCustomTransformer", "fromHALForms")
+                .handle("rentalService", "testmethod")
 //                .channel("rep-po-channel")
                 .get();
     }
