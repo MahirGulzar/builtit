@@ -43,7 +43,7 @@ public class PurchaseOrderAssembler {
 
     private List<Link> linkFor(PurchaseOrder purchaseOrder) {
             return Arrays.asList(
-                    new ExtendedLink(purchaseOrder.getHref(), "Purcahse Order", HttpMethod.GET)
+                    linkTo(methodOn(ProcurementRestController.class).getPlantHireRequestsById(purchaseOrder.getId())).withSelfRel()
             );
 
 //        return Collections.emptyList();
