@@ -25,8 +25,8 @@ import java.util.Map;
 @Configuration
 class RemittanceFlow {
 
-    @Value("${rentItUri.remittance}")
-    String remittanceUri;
+//    @Value("${rentItUri.remittance}")
+//    String remittanceUri;
 
     @Configuration
     @PropertySource("classpath:credentials.properties")
@@ -63,9 +63,9 @@ class RemittanceFlow {
 
     @Bean
     IntegrationFlow sendRemittance() {
-        return IntegrationFlows.from("sendRemittance")
+        return IntegrationFlows.from("sendRemittanceHTTP")
                 .handle(Http
-                        .outboundChannelAdapter(remittanceUri)
+                        .outboundChannelAdapter("http://localhost:8090/api/invoicing/remittance")
                         .httpMethod(HttpMethod.POST).requestFactory(requestFactory()))
                 .get();
     }

@@ -1,6 +1,7 @@
 package com.example.demo.invoice.application.services;
 
 import com.example.demo.invoice.application.dto.InvoiceDTO;
+import com.example.demo.invoice.application.dto.RemittanceDTO;
 import com.example.demo.invoice.domain.model.Invoice;
 import com.example.demo.invoice.domain.model.InvoiceStatus;
 import com.example.demo.invoice.domain.repository.InvoiceRepository;
@@ -16,6 +17,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,6 +30,9 @@ public class InvoiceService {
 
     @Autowired
     PlantHireRequestRepository plantHireRequestRepository;
+
+    @Autowired
+    RemittanceService remittanceService;
 
 
     @Autowired
@@ -52,8 +57,16 @@ public class InvoiceService {
         invoice.approveInvoice();
         invoice.getPlantHireRequest().getPurchaseOrder().setPoStatus(POStatus.PAID);
 
+        RemittanceDTO remittanceDTO = RemittanceDTO.of(
+                invoice.getPlantHireRequest().getPurchaseOrder().getHref(),
+                invoice.getAmount(),
+                LocalDate.now()
+        );
+
+        remittanceService.sendRemittanceHTTP(remittanceDTO);
 
         invoiceRepository.save(invoice);
+
         return invoiceAssembler.toResource(invoice);
 
     }

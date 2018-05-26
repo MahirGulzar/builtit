@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 @MessagingGateway
 public interface RemittanceGateway {
-    @Gateway(requestChannel = "sendRemittance")
+    @Gateway(requestChannel = "sendRemittanceHTTP")
     public void sendRemittance(String remittance);
 }
