@@ -14,13 +14,7 @@ public interface RentalGateway {
     @Gateway(requestChannel = "req-channel", replyChannel = "rep-channel")
     Object findPlants(@Payload String name, @Header("startDate") LocalDate startDate, @Header("endDate") LocalDate endDate);
 
-
-    @Gateway(requestChannel = "req-po-channel")//, replyChannel = "rep-po-channel")
+    @Gateway(requestChannel = "req-po-channel")
     Object createPurchaseOrder(@Payload String po);
-
-//@Payload PurchaseOrderAcceptDTO po
-//@Gateway(requestChannel = "sendRemittanceHTTP")
-//public void sendRemittance(String remittance);
-
 
 }
