@@ -2,10 +2,8 @@ package com.example.demo.procurement.application.dto;
 
 
 import com.example.demo.procurement.domain.model.PurchaseOrder;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.demo.procurement.domain.model.enums.POStatus;
+import lombok.*;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.core.Relation;
@@ -17,10 +15,13 @@ import java.math.BigDecimal;
 @Relation(value = "order", collectionRelation = "orders")
 @NoArgsConstructor(force = true, access = AccessLevel.PUBLIC)
 @AllArgsConstructor(staticName = "of")
+@EqualsAndHashCode(callSuper=false)
 public class PurchaseOrderDTO extends ResourceSupport {
     Long _id;
     String href;
+    POStatus poStatus;
     public PurchaseOrder asPurchaseOrder(){
-        return PurchaseOrder.of(_id, href);
+        return PurchaseOrder.of(_id, href, poStatus);
     }
 }
+

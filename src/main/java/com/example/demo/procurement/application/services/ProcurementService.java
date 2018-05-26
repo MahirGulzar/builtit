@@ -11,6 +11,7 @@ import com.example.demo.procurement.application.dto.PurchaseOrderSupplierDTO;
 import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.model.embedable.Comment;
 import com.example.demo.procurement.domain.model.enums.PHRStatus;
+import com.example.demo.procurement.domain.model.enums.POStatus;
 import com.example.demo.procurement.domain.repository.*;
 import com.example.demo.procurement.rest.controller.EmployeeRestController;
 import com.example.demo.procurement.rest.controller.ProcurementRestController;
@@ -202,6 +203,7 @@ public class ProcurementService {
 
         PurchaseOrder phrPo = new PurchaseOrder();
         phrPo.setHref(rtnPo.getHref());
+        phrPo.setPoStatus(POStatus.UNPAID);
         purchaseOrderRepository.save(phrPo);
 
         plantHireRequest.approvePHR(worksEngineer,phrPo);

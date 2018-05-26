@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/procurements/orders")
+@RequestMapping("/api/procurements/requests")
 @CrossOrigin
 public class PurchaseOrderRestController {
 
     @Autowired
     ProcurementService procurementService;
 
-    @GetMapping()
+    @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
     public List<PurchaseOrderDTO> findAllPurcahseOrders() {
         return procurementService.findAllPurchaseOrder();
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/orders/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PurchaseOrderSupplierDTO findOnePurchaseOrder(@PathVariable("id") Long id) {
         return procurementService.findOnePurchaseOrder(id);

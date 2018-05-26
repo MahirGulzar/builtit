@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.mailing.EmailServer;
 import com.example.demo.procurement.integration.gateways.RentalGateway;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,9 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 @SpringBootApplication
@@ -54,6 +58,16 @@ public class BuiltitApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(BuiltitApplication.class, args);
 		RentalGateway service = ctx.getBean(RentalGateway.class);
+
+		ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+		EmailServer mailServer = new EmailServer();
+		exec.scheduleAtFixedRate(new Runnable() {
+			@Override
+			public void run() {
+				//mailServer.check();
+			}
+		}, 0, 30, TimeUnit.SECONDS);
+
 
 //		System.out.println(
 //				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
