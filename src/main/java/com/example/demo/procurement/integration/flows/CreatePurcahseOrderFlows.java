@@ -70,7 +70,7 @@ class CreatePurcahseOrderFlows {
                         .expectedResponseType(String.class)
                 )
                 .handle("createPurchaseOrderCustomTransformer", "fromHALForms")
-                .handle("rentalService", "testmethod")
+//                .handle("rentalService", "testmethod")
 //                .channel("rep-po-channel")
                 .get();
     }
