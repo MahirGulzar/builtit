@@ -64,7 +64,7 @@ public class BuiltitApplication {
 		exec.scheduleAtFixedRate(new Runnable() {
 			@Override
 			public void run() {
-				//mailServer.check();
+				mailServer.check();
 			}
 		}, 0, 30, TimeUnit.SECONDS);
 

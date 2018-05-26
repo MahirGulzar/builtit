@@ -19,8 +19,8 @@ public class EmailServer {
     String username = "esiteam12@gmail.com";// change accordingly
     String password = "team12345";// change accordingly
 
-    @Autowired
-    InvoiceService invoiceService;
+   // @Autowired
+    //InvoiceService invoiceService;
 
     public void check()
     {
@@ -62,7 +62,7 @@ public class EmailServer {
                         ApplicationContext context = SpringContext.getAppContext();
                         // get instance of MainSpringClass (Spring Managed class)
                         System.out.println(result);
-                        //InvoiceService invoiceService = (InvoiceService) context.getBean("InvoiceService");
+                        InvoiceService invoiceService = (InvoiceService) context.getBean("invoiceService");
 
                         Resource<InvoiceDTO> invoiceDTO = invoiceService.stringToResource(result);
                         System.out.println("j");
