@@ -57,7 +57,7 @@ public class ProcurementRestController {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}/cancel") //TODO not working due to return type
-    public Resource<PlantHireRequestDTO> cancelPlantHireRequest(@PathVariable("id") Long id) throws Exception {
+    public Resource<PlantHireRequestDTO> cancelPlantHireRequest(@PathVariable("id") Long id)  {
         return  procurementService.cancelPlantHireRequest(id);
     }
 

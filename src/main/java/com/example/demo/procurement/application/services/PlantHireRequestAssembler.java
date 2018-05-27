@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -95,7 +96,7 @@ public class PlantHireRequestAssembler {
                     plantHireRequest.getRentalPeriod().getEndDate()));
         }
         dto.setStatus(plantHireRequest.getStatus());
-        
+
 
         return new Resource<>(
                 dto,
@@ -108,13 +109,16 @@ public class PlantHireRequestAssembler {
 
 
     private List<Link> linkFor(PlantHireRequest plantHireRequest) {
+        PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
 
         switch (plantHireRequest.getStatus()) {
             case PENDING_APPROVAL:
                 return Arrays.asList(
                         linkTo(methodOn(ProcurementRestController.class).getPlantHireRequestsById(plantHireRequest.getId())).withSelfRel(),
-                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).approvePlantHireRequest(plantHireRequest.getId(),null)).toString(), "accept", HttpMethod.POST),
-                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).rejectPlantHireRequest(plantHireRequest.getId(),null)).toString(), "reject", HttpMethod.DELETE)
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).updatePlantHireRequest(plantHireRequest.getId(),null)).toString(), "Modify", HttpMethod.POST),
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).cancelPlantHireRequest(plantHireRequest.getId())).toString(), "Cancel", HttpMethod.DELETE),
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).approvePlantHireRequest(plantHireRequest.getId(),null)).toString(), "Accept", HttpMethod.POST),
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).rejectPlantHireRequest(plantHireRequest.getId(),null)).toString(), "Reject", HttpMethod.DELETE)
                 );
             case APPROVED:
                 return Arrays.asList(
