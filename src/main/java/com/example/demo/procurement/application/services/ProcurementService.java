@@ -133,27 +133,32 @@ public class ProcurementService {
     /* Update PHR (Both SiteEngineer and Word Engineer) */
     public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
 
-
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
         if(plantHireRequest == null || plantHireRequest.getStatus() != PHRStatus.PENDING_APPROVAL) return null;
 
         Comment comment = new Comment(plantHireRequestDTO.getComments());
-        System.out.println(comment);
+
         plantHireRequest.setComments(comment);
         plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
         plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
         //plantHireRequest.setStatus(plantHireRequestDTO.getStatus()); //TODO need to check later that status should be here or not
-        //System.out.println(plantHireRequest);
 
         if(plantHireRequestDTO.getWorksEngineer() != null)
         {
             Employee worksEngineer = employeeRepository.getOne(plantHireRequestDTO.getWorksEngineer().getContent().get_id());
             plantHireRequest.setWorksEngineer(worksEngineer);
         }
+
+        BusinessPeriod rentalPeriod = null;
+
+        if(plantHireRequestDTO.getRentalPeriod() != null) {
+            plantHireRequest.setRentalPeriod(BusinessPeriod.of(
+                    plantHireRequestDTO.getRentalPeriod().getStartDate(),
+                    plantHireRequestDTO.getRentalPeriod().getEndDate()));
+        }
+
         plantHireRequestRepository.save(plantHireRequest);
-
-
         return plantHireRequestAssembler.toResource(plantHireRequest);
     }
 
