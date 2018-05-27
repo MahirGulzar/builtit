@@ -20,14 +20,14 @@ public class PlantHireRequest {
     Long id;
 
 
-    public static PlantHireRequest of(PlantInventoryEntry plant, BusinessPeriod rentalPeriod, Employee siteEngineer, ConstructionSite constructionSite) {
+    public static PlantHireRequest of(PlantInventoryEntry plant, BusinessPeriod rentalPeriod, BigDecimal price,  Employee siteEngineer, ConstructionSite constructionSite) {
         PlantHireRequest plantHireRequest = new PlantHireRequest();
         plantHireRequest.plantInventoryEntry = plant;
         plantHireRequest.rentalPeriod = rentalPeriod;
         plantHireRequest.siteEngineer=siteEngineer;
         plantHireRequest.constructionSite=constructionSite;
         plantHireRequest.status = PHRStatus.PENDING_APPROVAL;
-        plantHireRequest.totalPrice = BigDecimal.valueOf(ChronoUnit.DAYS.between(rentalPeriod.getStartDate(), rentalPeriod.getEndDate()) + 1).multiply(plant.getPrice());
+        plantHireRequest.totalPrice = BigDecimal.valueOf(ChronoUnit.DAYS.between(rentalPeriod.getStartDate(), rentalPeriod.getEndDate()) + 1).multiply(price);
         return plantHireRequest;
     }
 

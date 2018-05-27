@@ -15,6 +15,19 @@ public interface RentalGateway {
     Object findPlants(@Payload String name, @Header("startDate") LocalDate startDate, @Header("endDate") LocalDate endDate);
 
     @Gateway(requestChannel = "req-po-channel")
-    Object createPurchaseOrder(@Payload String po);
+    Object createPurchaseOrder(@Payload String po, @Header("url") String url);
+
+    @Gateway(requestChannel = "supplier-po-cancel-channel")
+    Object requestSupplierForPOCancellation(@Payload String po, @Header("url") String url);
+
+    @Gateway(requestChannel = "supplier-po-channel")
+    Object getSupplierPO(@Payload String url);
+
+    @Gateway(requestChannel = "req-plant-channel")
+    Object getPlantHTTP(@Payload String url);
+
+    @Gateway(requestChannel = "supplier-po-extension-channel")
+    Object requestPOExtension(@Payload String json, @Header("url") String url);
+
 
 }

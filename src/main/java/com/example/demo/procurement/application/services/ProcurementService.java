@@ -3,11 +3,8 @@ package com.example.demo.procurement.application.services;
 
 import com.example.demo.common.application.dto.BusinessPeriodDTO;
 import com.example.demo.common.domain.BusinessPeriod;
-import com.example.demo.procurement.application.dto.Plant;
+import com.example.demo.procurement.application.dto.*;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
-import com.example.demo.procurement.application.dto.PurchaseOrderAcceptDTO;
-import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
-import com.example.demo.procurement.application.dto.PurchaseOrderSupplierDTO;
 import com.example.demo.procurement.domain.model.*;
 import com.example.demo.procurement.domain.model.embedable.Comment;
 import com.example.demo.procurement.domain.model.enums.PHRStatus;
@@ -83,15 +80,18 @@ public class ProcurementService {
         ConstructionSite constructionSite = constructionSiteRepository.getOne(phrDTO.getConstructionSite().getContent().get_id());
 
         PlantInventoryEntry plant = null;
-        //System.out.println(phrDTO.getPlantInventoryEntry());
+        System.out.println(phrDTO.getPlantInventoryEntry());
+        PlantInventoryEntryDTO plantInventoryEntryDTO;
         if(phrDTO.getPlantInventoryEntry() != null) {
+
+            System.out.println(phrDTO.getPlantInventoryEntry().getHref());
+            plantInventoryEntryDTO = rentalService.getPlant(phrDTO.getPlantInventoryEntry().getHref());
+            System.out.println(plantInventoryEntryDTO);
             plant = PlantInventoryEntry.of(
-                    phrDTO.getPlantInventoryEntry().get_id(),
-                    phrDTO.getPlantInventoryEntry().getName(),
-                    phrDTO.getPlantInventoryEntry().getDescription(),
-                    phrDTO.getPlantInventoryEntry().getPrice(),
-                    phrDTO.getPlantInventoryEntry().get_link(),
-                    null);
+                    null,
+                    plantInventoryEntryDTO.getHref()
+            );
+
             plantInventoryEntryRepository.save(plant);
         }
         else {
@@ -112,6 +112,7 @@ public class ProcurementService {
         PlantHireRequest request = PlantHireRequest.of(
                 plant,
                 rentalPeriod,
+                plantInventoryEntryDTO.getPrice(),
                 siteEngineer,
                 constructionSite
         );

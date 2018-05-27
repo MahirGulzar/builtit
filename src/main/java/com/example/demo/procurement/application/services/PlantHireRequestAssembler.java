@@ -70,18 +70,17 @@ public class PlantHireRequestAssembler {
                     "",
                     "",
                     null,
-                    "",
-                    ""));
+                    ""
+                    ));
 
         }
         else {
             dto.setPlantInventoryEntry(PlantInventoryEntryDTO.of(
                     plantHireRequest.getPlantInventoryEntry().get_id(),
-                    plantHireRequest.getPlantInventoryEntry().getName(),
-                    plantHireRequest.getPlantInventoryEntry().getDescription(),
-                    plantHireRequest.getPlantInventoryEntry().getPrice(),
-                    plantHireRequest.getPlantInventoryEntry().get_link(),
-                    plantHireRequest.getPlantInventoryEntry().getSupplier()));
+                    "",
+                    "",
+                    null,
+                    plantHireRequest.getPlantInventoryEntry().getHref()));
         }
 
         dto.setTotalPrice(plantHireRequest.getTotalPrice());

@@ -14,11 +14,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor(staticName = "of")
 public class PlantInventoryEntry {
     @Id
+    @GeneratedValue
     Long _id;
-    String name;
-    String description;
-    BigDecimal price;
-    String _link;
-    String supplier;
+    String href;
+//    String name;
+//    String description;
+//    BigDecimal price;
+//    String _link;
+//    String supplier;
 
 }

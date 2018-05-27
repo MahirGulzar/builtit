@@ -16,6 +16,5 @@ public class PlantInventoryEntryDTO {
     String name;
     String description;
     BigDecimal price;
-    String _link;
-    String supplier;
+    String href;
 }
