@@ -68,7 +68,6 @@ public class ProcurementService {
 
     /* Get All PHRs */
     public Resources<Resource<PlantHireRequestDTO>> getAllPlantHireRequests(){
-
         return plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
     }
 

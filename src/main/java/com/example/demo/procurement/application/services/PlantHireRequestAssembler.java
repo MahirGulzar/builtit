@@ -37,6 +37,9 @@ public class PlantHireRequestAssembler {
     @Autowired
     PurchaseOrderAssembler purchaseOrderAssembler;
 
+    @Autowired
+    RentalService rentalService;
+
 
     public Resources<Resource<PlantHireRequestDTO>> toResources(List<PlantHireRequest> orders){
         return new Resources<>(orders.stream().map(o -> toResource(o)).collect(Collectors.toList()),
@@ -75,12 +78,9 @@ public class PlantHireRequestAssembler {
 
         }
         else {
-            dto.setPlantInventoryEntry(PlantInventoryEntryDTO.of(
-                    plantHireRequest.getPlantInventoryEntry().get_id(),
-                    "",
-                    "",
-                    null,
-                    plantHireRequest.getPlantInventoryEntry().getHref()));
+
+            PlantInventoryEntryDTO plantInventoryEntryDTO = rentalService.getPlant(plantHireRequest.getPlantInventoryEntry().getHref());
+            dto.setPlantInventoryEntry(plantInventoryEntryDTO);
         }
 
         dto.setTotalPrice(plantHireRequest.getTotalPrice());
@@ -95,39 +95,7 @@ public class PlantHireRequestAssembler {
                     plantHireRequest.getRentalPeriod().getEndDate()));
         }
         dto.setStatus(plantHireRequest.getStatus());
-
-/*
-        switch (dto.getStatus()) {
-            case PENDING_APPROVAL:
-                dto.add(new ExtendedLink(
-                        linkTo(methodOn(ProcurementRestController.class)
-                                .approvePlantHireRequest(dto.get_id(), dto)).toString(),
-                        "approvePHR", POST));
-                dto.add(new ExtendedLink(
-                        linkTo(methodOn(ProcurementRestController.class)
-                                .rejectPlantHireRequest(dto.get_id(), dto)).toString(),
-                        "rejectPHR", DELETE));
-                dto.add(new ExtendedLink(
-                        linkTo(methodOn(ProcurementRestController.class)
-                                .updatePlantHireRequest(dto.get_id(), dto)).toString(),
-                        "updatePHR", PATCH));
-                break;
-            case APPROVED:
-                dto.add(new ExtendedLink(
-                        linkTo(methodOn(ProcurementRestController.class)
-                                .fixPurchaseOrder(dto.get_id(), null)).toString(),
-                        "fixPHR", PATCH));
-                break;
-            case REJECTED:
-                dto.add(new ExtendedLink(
-                        linkTo(methodOn(ProcurementRestController.class)
-                                .updatePlantHireRequest(dto.get_id(), dto)).toString(),
-                        "updatePHR", PATCH));
-                break;
-            default:
-                break;
-        }
-*/
+        
 
         return new Resource<>(
                 dto,
