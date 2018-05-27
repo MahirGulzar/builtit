@@ -3,6 +3,7 @@ package com.example.demo.procurement.application.services;
 
 import com.example.demo.common.application.dto.BusinessPeriodDTO;
 import com.example.demo.common.domain.BusinessPeriod;
+import com.example.demo.invoice.application.dto.InvoiceDTO;
 import com.example.demo.procurement.application.dto.*;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.domain.model.*;
@@ -12,7 +13,10 @@ import com.example.demo.procurement.domain.model.enums.POStatus;
 import com.example.demo.procurement.domain.repository.*;
 import com.example.demo.procurement.rest.controller.EmployeeRestController;
 import com.example.demo.procurement.rest.controller.ProcurementRestController;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
@@ -57,6 +61,10 @@ public class ProcurementService {
 
     @Autowired
     RentalService rentalService;
+
+    @Autowired
+    @Qualifier("_halObjectMapper")
+    ObjectMapper mapper;
 
     /* Get All PHRs */
     public Resources<Resource<PlantHireRequestDTO>> getAllPlantHireRequests(){
@@ -325,6 +333,40 @@ public class ProcurementService {
         if(purchaseOrder == null) return null;
        return rentalService.getPurchaseOrder(purchaseOrder.getHref());
 
+    }
+
+    public void UpdatePO(Resource<PurchaseOrderNotificationDTO> purchaseOrderDTO)
+    {
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.findPHRbyRef(purchaseOrderDTO.getLink("self").get().getHref());
+        switch (purchaseOrderDTO.getContent().getStatus())
+        {
+            case OPEN:
+                plantHireRequest.setStatus(PHRStatus.PO_ACCEPTED);
+                break;
+            case REJECTED:
+                plantHireRequest.setStatus(PHRStatus.PO_REJECTED);
+                break;
+            case CANCELLED:
+                plantHireRequest.setStatus(PHRStatus.CANCELED);
+                break;
+            default:
+                break;
+
+        }
+        plantHireRequestRepository.save(plantHireRequest);
+    }
+
+
+    public Resource<PurchaseOrderNotificationDTO> stringToResource(String poString) {
+        System.out.println("coming here...");
+        Resource<PurchaseOrderNotificationDTO> purchaseOrderDTO = null;
+        try {
+            purchaseOrderDTO = mapper.readValue(poString, new TypeReference<Resource<PurchaseOrderNotificationDTO>>() {});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(purchaseOrderDTO);
+        return purchaseOrderDTO;
     }
 
 

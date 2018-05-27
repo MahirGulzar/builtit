@@ -2,6 +2,9 @@ package com.example.demo.mailing;
 
 import com.example.demo.invoice.application.dto.InvoiceDTO;
 import com.example.demo.invoice.application.services.InvoiceService;
+import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
+import com.example.demo.procurement.application.dto.PurchaseOrderNotificationDTO;
+import com.example.demo.procurement.application.services.ProcurementService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,8 +22,6 @@ public class EmailServer {
     String username = "esiteam12@gmail.com";// change accordingly
     String password = "team12345";// change accordingly
 
-   // @Autowired
-    //InvoiceService invoiceService;
 
     public void check()
     {
@@ -65,9 +66,26 @@ public class EmailServer {
                         InvoiceService invoiceService = (InvoiceService) context.getBean("invoiceService");
 
                         Resource<InvoiceDTO> invoiceDTO = invoiceService.stringToResource(result);
-                        System.out.println("j");
+//                        System.out.println("j");
                         System.out.println(invoiceDTO);
                         invoiceService.processInvoice(invoiceDTO);
+                    }
+                    else if(bodyPart.getFileName() != null && bodyPart.getFileName().startsWith("po"))
+                    {
+
+                        String result = IOUtils.toString(bodyPart.getInputStream(), "UTF-8");
+                        //get application context
+                        ApplicationContext context = SpringContext.getAppContext();
+                        // get instance of MainSpringClass (Spring Managed class)
+                        System.out.println(result);
+                        ProcurementService procurementService = (ProcurementService) context.getBean("procurementService");
+
+                        Resource<PurchaseOrderNotificationDTO> poDTO = procurementService.stringToResource(result);
+                        System.out.println(poDTO);
+
+
+                        procurementService.UpdatePO(poDTO);
+
                     }
                 }
             }
