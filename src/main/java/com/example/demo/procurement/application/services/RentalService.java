@@ -31,13 +31,13 @@ public class RentalService {
     @Qualifier("objectMapper")
     ObjectMapper mapper;
 
-    public PurchaseOrderDTO createPurchaseOrder(PurchaseOrderAcceptDTO poDTO) {
+    public PurchaseOrderDTO createPurchaseOrder(PurchaseOrderAcceptDTO poDTO, String callUrl) {
 
         String json = null;
         Resource<PurchaseOrderDTO> returnedPO=null;
         try {
             json = mapper.writeValueAsString(poDTO);
-            returnedPO=(Resource<PurchaseOrderDTO>)rentalGateway.createPurchaseOrder(json, "http://localhost:8090/api/sales/orders");
+            returnedPO=(Resource<PurchaseOrderDTO>)rentalGateway.createPurchaseOrder(json, callUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }

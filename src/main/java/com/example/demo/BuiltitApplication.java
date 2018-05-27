@@ -69,9 +69,15 @@ public class BuiltitApplication {
 			}
 		}, 0, 30, TimeUnit.SECONDS);
 
-//		System.out.println(
-//				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
-//		);
+		System.out.println(
+				service.findPlants("exc", LocalDate.now(), LocalDate.now().plusDays(2))
+		);
+
+		String str ="http://localhost:8090/api/sales/orders";
+		String splitted[] = str.split("/");
+		System.out.println(splitted[0]);
+		System.out.println(splitted[1]);
+		System.out.println(splitted[2]);
 
 	}
 }

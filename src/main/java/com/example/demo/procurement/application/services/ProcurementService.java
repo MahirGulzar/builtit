@@ -208,7 +208,14 @@ public class ProcurementService {
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
 
-        PurchaseOrderDTO rtnPo =  rentalService.createPurchaseOrder(po);
+        String callUrl = plantHireRequest.getPlantInventoryEntry().getHref();
+
+        String splitted[] = callUrl.split("/");
+
+        callUrl = splitted[0] + "//" + splitted[2] + "/api/sales/orders";
+
+        System.out.println(callUrl);
+        PurchaseOrderDTO rtnPo =  rentalService.createPurchaseOrder(po, callUrl);
 
         PurchaseOrder phrPo = new PurchaseOrder();
         phrPo.setHref(rtnPo.getHref());
