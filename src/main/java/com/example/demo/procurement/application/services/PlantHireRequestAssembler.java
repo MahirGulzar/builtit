@@ -115,7 +115,7 @@ public class PlantHireRequestAssembler {
             case PENDING_APPROVAL:
                 return Arrays.asList(
                         linkTo(methodOn(ProcurementRestController.class).getPlantHireRequestsById(plantHireRequest.getId())).withSelfRel(),
-                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).updatePlantHireRequest(plantHireRequest.getId(),null)).toString(), "Modify", HttpMethod.POST),
+                        new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).updatePlantHireRequest(plantHireRequest.getId(),null)).toString(), "Modify", HttpMethod.PUT),
                         new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).cancelPlantHireRequest(plantHireRequest.getId())).toString(), "Cancel", HttpMethod.DELETE),
                         new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).approvePlantHireRequest(plantHireRequest.getId(),null)).toString(), "Accept", HttpMethod.POST),
                         new ExtendedLink(linkTo(methodOn(ProcurementRestController.class).rejectPlantHireRequest(plantHireRequest.getId(),null)).toString(), "Reject", HttpMethod.DELETE)
