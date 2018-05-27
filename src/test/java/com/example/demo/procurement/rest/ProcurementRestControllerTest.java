@@ -2,7 +2,9 @@ package com.example.demo.procurement.rest;
 
 import com.example.demo.BuiltitApplication;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
+import com.example.demo.procurement.application.dto.PlantInventoryEntryDTO;
 import com.example.demo.procurement.rest.controller.PlantsRestController;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.hateoas.Resources;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -19,6 +22,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
 //import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -60,6 +65,11 @@ public class ProcurementRestControllerTest {
             .andExpect(status().isOk())
             .andExpect(header().string("Location", isEmptyOrNullString()))
             .andReturn();
+
+        Resources<PlantInventoryEntryDTO> plants = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<Resources<PlantInventoryEntryDTO>>() {});
+
+        List<PlantInventoryEntryDTO> entryDTOS = new ArrayList<PlantInventoryEntryDTO>(plants.getContent());
+        System.out.println(entryDTOS);
 
     }
 }
