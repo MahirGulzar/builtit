@@ -213,7 +213,7 @@ public class ProcurementService {
                 new Customer(),
                 plantHireRequestDTO.getRentalPeriod(),
                 plantHireRequest.getRentalPeriod().getEndDate(),
-                "localBuiltIN2",
+                "localBuiltIN3",
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
@@ -264,7 +264,7 @@ public class ProcurementService {
                         plantHireRequest.getRentalPeriod().getEndDate()
                 ),
                 plantHireRequest.getRentalPeriod().getEndDate(),
-                "localBuiltIN2",
+                "localBuiltIN3",
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );

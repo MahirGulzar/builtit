@@ -19,8 +19,8 @@ import java.util.Properties;
 public class EmailServer {
     String host = "pop.gmail.com";// change accordingly
     String mailStoreType = "pop3";
-    String username = "esiteam12@gmail.com";// change accordingly
-    String password = "team12345";// change accordingly
+    String username = "esiteam12b@gmail.com";// change accordingly
+    String password = "esiteam123";// change accordingly
 
 
     public void check()
