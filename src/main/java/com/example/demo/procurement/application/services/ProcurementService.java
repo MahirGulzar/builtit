@@ -213,7 +213,7 @@ public class ProcurementService {
                 new Customer(),
                 plantHireRequestDTO.getRentalPeriod(),
                 plantHireRequest.getRentalPeriod().getEndDate(),
-                "localBuiltIN",
+                "localBuiltIN2",
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
@@ -264,7 +264,7 @@ public class ProcurementService {
                         plantHireRequest.getRentalPeriod().getEndDate()
                 ),
                 plantHireRequest.getRentalPeriod().getEndDate(),
-                "localBuiltIN",
+                "localBuiltIN2",
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
@@ -341,8 +341,15 @@ public class ProcurementService {
 
     public List<PurchaseOrderDTO> findAllPurchaseOrder() {
         //Todo it throw error when there is any pending PHR as PO is not created
-        Resources<Resource<PlantHireRequestDTO>> allPHR = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
-        List<PurchaseOrderDTO> returnPO = allPHR.getContent().stream().map(x -> x.getContent().getOrder().getContent()).collect(Collectors.toList());
+        //Resources<Resource<PlantHireRequestDTO>> allPHR = plantHireRequestAssembler.toResources(plantHireRequestRepository.findAll());
+
+         List<PlantHireRequest> plantHireRequest = plantHireRequestRepository.findPlantByStatus(PHRStatus.PENDING_APPROVAL);
+
+        if(plantHireRequest == null)
+            return null;
+
+        Resources<Resource<PlantHireRequestDTO>> pHR =  plantHireRequestAssembler.toResources(plantHireRequest);
+        List<PurchaseOrderDTO> returnPO = pHR.getContent().stream().map(x -> x.getContent().getOrder().getContent()).collect(Collectors.toList());
         return returnPO;
     }
 
