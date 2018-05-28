@@ -65,7 +65,7 @@ class RemittanceFlow {
     IntegrationFlow sendRemittance() {
         return IntegrationFlows.from("sendRemittanceHTTP")
                 .handle(Http
-                        .outboundChannelAdapter("http://localhost:8090/api/invoicing/remittance")
+                        .outboundChannelAdapter("https://team12-rentit.herokuapp.com/api/invoicing/remittance")
                         .httpMethod(HttpMethod.POST).requestFactory(requestFactory()))
                 .get();
 
