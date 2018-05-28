@@ -21,6 +21,7 @@ public class PurchaseOrderAcceptDTO implements Serializable {
     public Customer customer;
     public BusinessPeriodDTO rentalPeriod;
     public LocalDate endDate;
+    public String consumerURI = "localBuiltIN";
     public String acceptHref;
     public String rejectHref;
 

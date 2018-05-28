@@ -142,7 +142,7 @@ public class ProcurementService {
 
         plantHireRequest.setComments(comment);
         plantHireRequest.setConstructionSite(constructionSiteRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
-        plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getConstructionSite().getContent().get_id()));
+        plantHireRequest.setSiteEngineer(employeeRepository.getOne(plantHireRequestDTO.getSiteEngineer().getContent().get_id()));
         //plantHireRequest.setStatus(plantHireRequestDTO.getStatus()); //TODO need to check later that status should be here or not
 
         if(plantHireRequestDTO.getWorksEngineer() != null)
@@ -213,6 +213,7 @@ public class ProcurementService {
                 new Customer(),
                 plantHireRequestDTO.getRentalPeriod(),
                 plantHireRequest.getRentalPeriod().getEndDate(),
+                "localBuiltIN",
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
@@ -263,6 +264,7 @@ public class ProcurementService {
                         plantHireRequest.getRentalPeriod().getEndDate()
                 ),
                 plantHireRequest.getRentalPeriod().getEndDate(),
+                "localBuiltIN",
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
