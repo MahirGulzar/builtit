@@ -46,7 +46,7 @@ public class ProcurementRestController {
     @PutMapping("/{id}")
     public Resource<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable("id") Long id,
                                                                 @RequestBody PlantHireRequestDTO phrDTO) {
-        return procurementService.updatePlantHireRequest(phrDTO);
+        return procurementService.updatePlantHireRequest(phrDTO, id);
     }
 
 

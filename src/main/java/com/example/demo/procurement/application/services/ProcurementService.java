@@ -132,9 +132,9 @@ public class ProcurementService {
     }
 
     /* Update PHR (Both SiteEngineer and Word Engineer) */
-    public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
+    public Resource<PlantHireRequestDTO> updatePlantHireRequest(PlantHireRequestDTO plantHireRequestDTO, Long id){
 
-        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(id);
 
         if(plantHireRequest == null || plantHireRequest.getStatus() != PHRStatus.PENDING_APPROVAL) return null;
 
