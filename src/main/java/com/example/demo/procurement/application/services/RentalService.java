@@ -37,6 +37,8 @@ public class RentalService {
         Resource<PurchaseOrderDTO> returnedPO=null;
         try {
             json = mapper.writeValueAsString(poDTO);
+            System.out.println(json);
+            System.out.println(callUrl);
             returnedPO=(Resource<PurchaseOrderDTO>)rentalGateway.createPurchaseOrder(json, callUrl);
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,14 +91,18 @@ public class RentalService {
         String json = null;
         Resource<PurchaseOrderDTO> returnedPO=null;
         try {
+            System.out.println(purchaseOrderDTO);
             json = mapper.writeValueAsString(purchaseOrderDTO);
-            FlowsHelper.destinationURI = linkPO+"/extension";
+            System.out.println(linkPO);
+            System.out.println(json);
             returnedPO = (Resource<PurchaseOrderDTO>)rentalGateway.requestPOExtension(json, linkPO);
-
+            System.out.println(purchaseOrderDTO);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        System.out.println("am here");
+        System.out.println(returnedPO);
         PurchaseOrderDTO  po= new PurchaseOrderDTO();
         po.setHref(returnedPO.getLink("self").get().getHref());
         return po;

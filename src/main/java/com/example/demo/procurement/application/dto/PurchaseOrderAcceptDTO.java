@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 
 @Data
@@ -19,28 +20,8 @@ public class PurchaseOrderAcceptDTO implements Serializable {
     public Plant plant;
     public Customer customer;
     public BusinessPeriodDTO rentalPeriod;
-
+    public LocalDate endDate;
     public String acceptHref;
     public String rejectHref;
 
-
 }
-//
-//{
-//        "customer":
-//        {
-//        "name": "BuildIt",
-//        "contactPerson": "Chibaba",
-//        "email": "team2@gmail.com",
-//        "siteAddress": "Juhan Liivi 2"
-//        },
-//        "plant":
-//        {
-//        "_id": 1
-//        },
-//        "rentalPeriod":
-//        {
-//        "startDate": "2018-06-01",
-//        "endDate": "2018-06-05"
-//        }
-//        }

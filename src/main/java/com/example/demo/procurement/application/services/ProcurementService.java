@@ -212,6 +212,7 @@ public class ProcurementService {
                 ),
                 new Customer(),
                 plantHireRequestDTO.getRentalPeriod(),
+                plantHireRequest.getRentalPeriod().getEndDate(),
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
@@ -261,11 +262,13 @@ public class ProcurementService {
                         plantHireRequest.getRentalPeriod().getStartDate(),
                         plantHireRequest.getRentalPeriod().getEndDate()
                 ),
+                plantHireRequest.getRentalPeriod().getEndDate(),
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
         );
 
-        String linkPO = plantHireRequest.getPurchaseOrder().getHref();
+        String linkPO = plantHireRequest.getPurchaseOrder().getExtentionURL();
+        System.out.println(linkPO);
 
         PurchaseOrderDTO rtnPo =  rentalService.extendPurchaseOrder(po, linkPO);
 
@@ -344,6 +347,7 @@ public class ProcurementService {
     public PurchaseOrderSupplierDTO findOnePurchaseOrder(Long id) {
 
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(id).get();
+        System.out.println(purchaseOrder);
         if(purchaseOrder == null) return null;
        return rentalService.getPurchaseOrder(purchaseOrder.getHref());
 

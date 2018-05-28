@@ -1,6 +1,7 @@
 package com.example.demo.procurement.rest.controller;
 
 import com.example.demo.common.application.dto.BusinessPeriodDTO;
+import com.example.demo.procurement.application.dto.ExtendDTO;
 import com.example.demo.procurement.application.dto.PlantHireRequest.PlantHireRequestDTO;
 import com.example.demo.procurement.application.dto.PurchaseOrderDTO;
 import com.example.demo.procurement.application.services.ProcurementService;
@@ -76,14 +77,14 @@ public class ProcurementRestController {
     }
 
     @PostMapping("/{id}/extend")
+    public Resource<PlantHireRequestDTO> extendPlantHireRequest( @PathVariable("id") Long id, @RequestBody ExtendDTO extendDTO) throws Exception {
 
-    public Resource<PlantHireRequestDTO> extendPlantHireRequest( @PathVariable("id") Long id, @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) throws Exception {
+        if(extendDTO == null || extendDTO.getEndDate() == null) return null;
 
-        Resource<PlantHireRequestDTO> plantHireRequestDTO = procurementService.extendPlantHireRequest(id, endDate);
+        Resource<PlantHireRequestDTO> plantHireRequestDTO = procurementService.extendPlantHireRequest(id, extendDTO.getEndDate());
         return plantHireRequestDTO;
 
     }
-
 
     // PO accept by RentIT
     @ResponseStatus(HttpStatus.OK)

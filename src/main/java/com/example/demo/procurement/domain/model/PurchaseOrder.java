@@ -16,4 +16,17 @@ public class PurchaseOrder {
     Long id;
     String href;
     POStatus poStatus;
+
+    public String getExtentionURL() {
+        String splitted[] = this.href.split("/");
+        System.out.println(splitted[2]);
+        String url = splitted[2];
+        switch (url) {
+            case "team-2-rentit.herokuapp.com":
+                return this.href + "/extensions";
+            default:
+                return this.href + "/extension";
+        }
+    }
+
 }
