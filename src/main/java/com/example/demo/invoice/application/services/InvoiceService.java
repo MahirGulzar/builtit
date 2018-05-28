@@ -79,8 +79,13 @@ public class InvoiceService {
             System.out.println("no invoice");
             return false;
         };
+        PlantHireRequest plantHireRequest;
+        plantHireRequest = plantHireRequestRepository.findPHRbyRef(invoiceDTO.getContent().getPoID());
+        if(plantHireRequest == null) {
+            String url = "https://team12-rentit.herokuapp.com/api/sales/orders/" + invoiceDTO.getContent().getPoID();
+            plantHireRequest = plantHireRequestRepository.findPHRbyRef(url);
+        }
 
-        PlantHireRequest plantHireRequest = plantHireRequestRepository.findPHRbyRef(invoiceDTO.getContent().getPoID());
         System.out.println(plantHireRequest);
         if(plantHireRequest != null && plantHireRequest.getPurchaseOrder().getPoStatus() == POStatus.UNPAID){
             Invoice invoice = new Invoice();
