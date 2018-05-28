@@ -2,6 +2,7 @@ package com.example.demo.procurement.application.dto;
 
 
 import com.example.demo.common.application.dto.BusinessPeriodDTO;
+import com.example.demo.procurement.domain.model.Customer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 public class PurchaseOrderAcceptDTO implements Serializable {
 
     public Plant plant;
+    public Customer customer;
     public BusinessPeriodDTO rentalPeriod;
 
     public String acceptHref;
@@ -23,3 +25,22 @@ public class PurchaseOrderAcceptDTO implements Serializable {
 
 
 }
+//
+//{
+//        "customer":
+//        {
+//        "name": "BuildIt",
+//        "contactPerson": "Chibaba",
+//        "email": "team2@gmail.com",
+//        "siteAddress": "Juhan Liivi 2"
+//        },
+//        "plant":
+//        {
+//        "_id": 1
+//        },
+//        "rentalPeriod":
+//        {
+//        "startDate": "2018-06-01",
+//        "endDate": "2018-06-05"
+//        }
+//        }

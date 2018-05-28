@@ -41,7 +41,7 @@ public class RentalService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        System.out.println(returnedPO);
         PurchaseOrderDTO  po= new PurchaseOrderDTO();
         po.setHref(returnedPO.getLink("self").get().getHref());
         po.setPoStatus(POStatus.UNPAID);
@@ -54,8 +54,12 @@ public class RentalService {
         Resource<PurchaseOrderDTO> returnedPO=null;
         try {
             json = mapper.writeValueAsString(purchaseOrderDTO);
+            System.out.println(purchaseOrderDTO);
+            System.out.println(purchaseOrderDTO.getCancelURL());
 
-            returnedPO = (Resource<PurchaseOrderDTO>)rentalGateway.requestSupplierForPOCancellation(json, purchaseOrderDTO.getHref()+ "/cancel" );
+            returnedPO = (Resource<PurchaseOrderDTO>)rentalGateway.requestSupplierForPOCancellation(json, purchaseOrderDTO.getCancelURL() );
+            System.out.println(returnedPO);
+
 
         } catch (Exception e) {
             e.printStackTrace();

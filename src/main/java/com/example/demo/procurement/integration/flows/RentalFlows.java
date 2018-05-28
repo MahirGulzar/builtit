@@ -49,7 +49,7 @@ class RentalFlows {
                 System.out.println(authority);
                 System.out.println(uri.getAuthority());
                 if (authority != null && authority.equals(uri.getAuthority())) {
-                    result.getHeaders().add("Authorization", map.get("authorization"));
+                        result.getHeaders().add("Authorization", map.get("authorization"));
                     break;
                 }
             }
@@ -83,7 +83,7 @@ class RentalFlows {
                 .enrichHeaders( headerEnricherSpec -> headerEnricherSpec.headerExpression("Content-Type", "'application/json'"))
                 .handle(Http.outboundGateway("{url}")
                         .uriVariable("url", "headers.url")
-                        .httpMethod(HttpMethod.GET).requestFactory(requestFactory())
+                        .httpMethod(HttpMethod.DELETE).requestFactory(requestFactory())
                         .expectedResponseType(String.class)
                 )
                 .handle("rentalTransformer", "purchaseOrder")

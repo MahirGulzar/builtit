@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 public class PlantInventoryEntry {
     @Id
     @GeneratedValue
+    Long id;
     Long _id;
     String href;
 //    String name;

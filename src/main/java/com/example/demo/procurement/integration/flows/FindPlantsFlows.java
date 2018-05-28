@@ -51,7 +51,8 @@ class FindPlantsFlows {
             for (Map<String, String> map: credentials.getCredentials().values()) {
                 String authority = map.get("authority");
                 if (authority != null && authority.equals(uri.getAuthority())) {
-                    result.getHeaders().add("Authorization", map.get("authorization"));
+                    System.out.println(uri.getAuthority());
+                        result.getHeaders().add("Authorization", map.get("authorization"));
                     break;
                 }
             }
@@ -71,7 +72,7 @@ class FindPlantsFlows {
                 .publishSubscribeChannel(conf ->
                         conf.applySequence(true)
                                 //TODO Will use Gather and Scatter once we implment the final project
-                                //.subscribe(f -> f.channel("rentmt-channel"))
+                                .subscribe(f -> f.channel("team2-channel"))
                                 .subscribe(f -> f.channel("rentit-channel"))
                 )
                 .get();
@@ -122,4 +123,19 @@ class FindPlantsFlows {
                 .channel("gather-channel")
                 .get();
     }
+    @Bean
+    IntegrationFlow team2Flow() {
+        return IntegrationFlows.from("team2-channel")
+                .handle(Http.outboundGateway("https://team-2-rentit.herokuapp.com/api/sales/plants?name={name}&startDate={startDate}&endDate={endDate}")
+                        .uriVariable("name", "payload")
+                        .uriVariable("startDate", "headers.startDate")
+                        .uriVariable("endDate", "headers.endDate")
+                        .httpMethod(HttpMethod.GET).requestFactory(requestFactory())
+                        .expectedResponseType(String.class)
+                )
+                .handle("findPlantsCustomTransformer", "fromHALForms")
+                .channel("gather-channel")
+                .get();
+    }
+
 }

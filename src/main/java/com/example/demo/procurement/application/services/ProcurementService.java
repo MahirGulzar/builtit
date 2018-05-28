@@ -96,6 +96,7 @@ public class ProcurementService {
             System.out.println(plantInventoryEntryDTO);
             plant = PlantInventoryEntry.of(
                     null,
+                    plantInventoryEntryDTO.get_id(),
                     plantInventoryEntryDTO.getHref()
             );
 
@@ -178,7 +179,9 @@ public class ProcurementService {
 
                 PurchaseOrderDTO purchaseOrderDTO = plantHireRequestAssembler.toResource(plantHireRequest).getContent().getOrder().getContent();
                 PurchaseOrderDTO cancelledPO = rentalService.requestSupplierForPOCancellation(purchaseOrderDTO);
-                plantHireRequest.setPurchaseOrder(cancelledPO.asPurchaseOrder());
+                PurchaseOrder po = cancelledPO.asPurchaseOrder();
+                purchaseOrderRepository.save(po);
+                plantHireRequest.setPurchaseOrder(po);
                 plantHireRequest.cancelPHR(); //Todo assuming that there is no concept of CancelPending
 
             } else return null;
@@ -207,6 +210,7 @@ public class ProcurementService {
                         null,
                         null
                 ),
+                new Customer(),
                 plantHireRequestDTO.getRentalPeriod(),
                 linkTo(methodOn(ProcurementRestController.class).acceptPO(plantHireRequest.getId())).toString(),
                 linkTo(methodOn(ProcurementRestController.class).rejectPO(plantHireRequest.getId())).toString()
@@ -252,6 +256,7 @@ public class ProcurementService {
                         null,
                         null
                 ),
+                new Customer(),
                 BusinessPeriodDTO.of(
                         plantHireRequest.getRentalPeriod().getStartDate(),
                         plantHireRequest.getRentalPeriod().getEndDate()
@@ -275,8 +280,6 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);
 
     }
-
-
 
     /* Reject PHR  */
     public Resource<PlantHireRequestDTO> rejectPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO){
