@@ -25,7 +25,7 @@ public class PurchaseOrder {
             case "team-2-rentit.herokuapp.com":
                 return this.href + "/extensions";
             default:
-                return this.href + "/extension";
+                return this.href + "/extensions";
         }
     }
 

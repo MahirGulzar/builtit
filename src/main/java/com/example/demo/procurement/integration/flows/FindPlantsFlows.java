@@ -73,7 +73,8 @@ class FindPlantsFlows {
                         conf.applySequence(true)
                                 //TODO Will use Gather and Scatter once we implment the final project
                                 .subscribe(f -> f.channel("team2-channel"))
-                                .subscribe(f -> f.channel("rentit-channel"))
+                                //.subscribe(f -> f.channel("rentit-channel"))
+                                .subscribe(f -> f.channel("team12-channel"))
                 )
                 .get();
     }
@@ -137,5 +138,21 @@ class FindPlantsFlows {
                 .channel("gather-channel")
                 .get();
     }
+    @Bean
+    IntegrationFlow team12Flow() {
+        return IntegrationFlows.from("team12-channel")
+                .handle(Http.outboundGateway("https://team12-rentit.herokuapp.com/api/sales/plants?name={name}&startDate={startDate}&endDate={endDate}")
+                        .uriVariable("name", "payload")
+                        .uriVariable("startDate", "headers.startDate")
+                        .uriVariable("endDate", "headers.endDate")
+                        .httpMethod(HttpMethod.GET).requestFactory(requestFactory())
+                        .expectedResponseType(String.class)
+                )
+                .handle("findPlantsCustomTransformer", "fromHALForms")
+                .channel("gather-channel")
+                .get();
+    }
+
+
 
 }
